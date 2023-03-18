@@ -6,4 +6,5 @@
  *
  */
 module GUIgrilla {
+    requires java.desktop;
 }
