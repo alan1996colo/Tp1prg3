@@ -1,12 +1,21 @@
 package Interfaz;
 
 import java.awt.EventQueue;
+import java.awt.GridLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import java.awt.BorderLayout;
+import java.awt.Container;
+import Negocio.Negocio;
+import javax.swing.JTextArea;
 
 public class Presentacion {
 
-	private JFrame frame;
+	private JFrame frmGrilla;
+	private JTextField textField;
+	private JTextField textField_1;
 	
 	/*** apunta a mostrar valores de suma del negocio, muestra el objetivo a sumar de el juego */
 	public void mostrarValoresDeSuma() {}
@@ -45,7 +54,7 @@ public class Presentacion {
 			public void run() {
 				try {
 					Presentacion window = new Presentacion();
-					window.frame.setVisible(true);
+					window.frmGrilla.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -64,9 +73,32 @@ public class Presentacion {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmGrilla = new JFrame();
+		frmGrilla.setTitle("Grilla");
+		frmGrilla.setBounds(100, 100, 450, 300);
+		//Container ControlHost = getContentPane();
+	int tamanoGrilla= 4;// esto despues lo transformamos en un input del usuario
+	Negocio neg =new Negocio(tamanoGrilla); //creamos el objeto negocio
+	JPanel textGrilla = new JPanel();
+	GridLayout gl=new GridLayout(tamanoGrilla,tamanoGrilla);
+	textGrilla.setLayout(gl);
+	for(int i=0;i<tamanoGrilla*tamanoGrilla;i++) {
+	textGrilla.add(new JTextField(String.valueOf(i),4));
+	frmGrilla.add(textGrilla);
+	}
+	
+	
+	
+	
+		
+		
+		
+		
+		
+		
+		frmGrilla.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		
 	}
 
 }
