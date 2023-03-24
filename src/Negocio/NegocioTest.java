@@ -1,35 +1,57 @@
 package Negocio;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class NegocioTest {
+	 Negocio neg;
 	
-	
-	Negocio n=new Negocio(3);
-	//n.crearMatrizResuelta(3, 1);
+	@Before
+	public void setUp() throws Exception {//ejecuta una vez lo que este aca adentro por cada test
+	 neg=new Negocio(4,1);
 	//n.mostrar();
+	//n.mostrarValoresDesuma();
+	
+	
+	
+	
+	}
+	
 	//n.calcularResultadoMatrizCreadaFilaColumna();
 	//n.mostrarValoresDesuma();
-
+	@Test (expected=IllegalArgumentException.class)
+	public void agregarValoresMatrizNoValNeg() {
+		neg.agregarValoresMatriz(-1,2,3);
+		
+	}
+	@Test (expected=IllegalArgumentException.class)
+	public void agregarValoresMatrizNoPosYNeg() {	
+		neg.agregarValoresMatriz(1,2,-3);
+	
+}
+	@Test (expected=IllegalArgumentException.class)
+	public void agregarValoresMatrizNoPosXNeg() {	
+		neg.agregarValoresMatriz(1,-2,3);
+		
+	}
+	
 	@Test (expected=IllegalArgumentException.class)
 	public void validarInputNonsepuedeNegativoTest() {
-		Negocio a=new Negocio();
-		a.validarInput(-1, 1, 1);
-	}
 	
+		neg.validarInput(-1, 1, 1);
+	}
+
 	@Test (expected=IllegalArgumentException.class)
 	public void ValidarInputNoFilaNegTest() {
-		Negocio a=new Negocio();
-		a.validarInput(1, -1, 1);
+		neg.validarInput(1, -1, 1);
 		
 	}
+
 	@Test (expected=IllegalArgumentException.class)
 	public void ValidarInputNoColNegTest() {
-		Negocio a=new Negocio();
-		a.validarInput(1, 1, -1);
-		
-	}
+		neg.validarInput(1, 1, -1);
+		}
+
 	
-
-
-}
+	
+	}

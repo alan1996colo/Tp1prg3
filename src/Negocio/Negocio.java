@@ -5,16 +5,11 @@ import java.util.*;
 public class Negocio {
 	
 	private int tamano;
-	private int tamMatriz=4;
-	private  int filas= 3;
-	private  int columnas=3;
-	private  int[][] matrizUsuario = new int [filas][columnas];
+	private  int[][] matrizUsuario;
 	private int[][] matrizResuelta;
-	private int[] resultadoSumaFila=new int[3];
-	private int[] resultadoSumaColumna=new int[3];//ver como inicializar sin tener que poner un valor
+	private int[] resultadoSumaFila;
+	private int[] resultadoSumaColumna;
 	
-	
-	//hashmapo array inputs del usuario.
 	
 	/****Por defecto crea una matriz de 4x4 con nivel 1.
 	 * ***/	
@@ -22,8 +17,9 @@ public class Negocio {
 		this.tamano=4;
 		this.matrizResuelta=crearMatrizResuelta(tamano,1);
 		this.matrizUsuario=crearMatrizConCeros(tamano);
-		
-		
+		this.resultadoSumaColumna=new int[tamano];
+		this.resultadoSumaFila=new int[tamano];
+		calcularResultadoMatrizCreadaFilaColumna();
 	}
 	/****Por defecto crea una matriz con nivel 1 si no se ingresa parametro nivel.
 	 * ***/	
@@ -31,6 +27,9 @@ public class Negocio {
 		this.tamano=tamano;
 		this.matrizResuelta=crearMatrizResuelta(tamano,1);
 		this.matrizUsuario=crearMatrizConCeros(tamano);
+		this.resultadoSumaColumna=new int[tamano];
+		this.resultadoSumaFila=new int[tamano];
+		calcularResultadoMatrizCreadaFilaColumna();
 	}
 	/***Crea la grilla para el juego, hace una matriz cuadrada de tamañoXtamaño, con valores multiplo de 3xnivel, se crea una matriz resuelta.
 	 * ***/	
@@ -38,7 +37,36 @@ public class Negocio {
 		this.tamano=tamano;
 		this.matrizResuelta=crearMatrizResuelta(tamano,nivel);
 		this.matrizUsuario=crearMatrizConCeros(tamano);
+		this.resultadoSumaColumna=new int[tamano];
+		this.resultadoSumaFila=new int[tamano];
+		calcularResultadoMatrizCreadaFilaColumna();
 	}
+	
+	/****
+	 * Devuelve una copia del array con los resultados de cada fila 
+	 * para que lo use la capa de presentacion
+	 * ***/
+	
+	public int [] getResultadoSumaFila() {
+		int [] copia =this.resultadoSumaFila.clone();
+		return copia;
+	}
+	/****
+	 * Devuelve una copia del array con los resultados de cada columna 
+	 * para que lo use la capa de presentacion
+	 * ***/
+	public int[] getResultadosColumna() {
+		int [] copia =this.resultadoSumaColumna.clone();
+	return copia;}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public boolean validarInput(int input, int coordy,int coordx) {return false;}
 	
@@ -93,8 +121,12 @@ private int valorAleatorioNivel(int nivel) {
 	
 	
 	
-	// Agrega los input a la matriz
+	// Agrega los input a la matriz de usuario
 	public void agregarValoresMatriz(int posx, int posy ,int valor){
+		if(posx<0)throw new IllegalArgumentException("No existen posiciones negativas "+posx);
+		if(posy<0)throw new IllegalArgumentException("No existen posiciones negativas "+posy);
+		if(valor<0)throw new IllegalArgumentException("No se permiten valores negativos "+valor);
+		
 		
 		for(int fil=0;fil<this.matrizUsuario.length;fil++) {
 			for(int col=0;col<this.matrizUsuario[0].length;col++) {
@@ -153,13 +185,13 @@ private int valorAleatorioNivel(int nivel) {
 	};
 	/** Solo muestra los numeros que se van desbloqueando continuamente*/
 	public void mostrar() {
-		int cont=0;
-		for (int i=0;i<this.matrizResuelta.length;i++) {
+			for (int i=0;i<this.matrizResuelta.length;i++) {
 			System.out.println("");
 			for(int j=0;j<this.matrizResuelta[0].length;j++) {
 			
 					System.out.print(matrizResuelta[i][j]);
 			}}
+			System.out.println("\n------");
 		}
 	
 	
