@@ -104,6 +104,7 @@ public class Presentacion {
 			}
 			posY+=30;
 			System.out.println("hola");
+			//cambio n#7
 			
 		}
 		
