@@ -83,7 +83,7 @@ public class Presentacion {
 	GridLayout gl=new GridLayout(tamanoGrilla,tamanoGrilla);
 	textGrilla.setLayout(gl);
 	for(int i=0;i<tamanoGrilla*tamanoGrilla;i++) {
-	textGrilla.add(new JTextField(String.valueOf(i),4));
+	textGrilla.add(new JTextField(String.valueOf(""),4));
 	frmGrilla.add(textGrilla);
 	}
 	
