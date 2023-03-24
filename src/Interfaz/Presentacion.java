@@ -16,6 +16,8 @@ public class Presentacion {
 	private JFrame frmGrilla;
 	private JTextField textField;
 	private JTextField textField_1;
+	private int cantFilas=4;
+	private int cantColumnas=4;
 	
 	/*** apunta a mostrar valores de suma del negocio, muestra el objetivo a sumar de el juego */
 	public void mostrarValoresDeSuma() {}
@@ -77,15 +79,34 @@ public class Presentacion {
 		frmGrilla.setTitle("Grilla");
 		frmGrilla.setBounds(100, 100, 450, 300);
 		//Container ControlHost = getContentPane();
-	int tamanoGrilla= 4;// esto despues lo transformamos en un input del usuario
-	Negocio neg =new Negocio(tamanoGrilla); //creamos el objeto negocio
-	JPanel textGrilla = new JPanel();
-	GridLayout gl=new GridLayout(tamanoGrilla,tamanoGrilla);
-	textGrilla.setLayout(gl);
-	for(int i=0;i<tamanoGrilla*tamanoGrilla;i++) {
-	textGrilla.add(new JTextField(String.valueOf(""),4));
-	frmGrilla.add(textGrilla);
-	}
+//	int tamanoGrilla= 4;// esto despues lo transformamos en un input del usuario
+//	Negocio neg =new Negocio(tamanoGrilla); //creamos el objeto negocio
+//	JPanel textGrilla = new JPanel();
+//	GridLayout gl=new GridLayout(tamanoGrilla,tamanoGrilla);
+//	textGrilla.setLayout(gl);
+//	for(int i=0;i<tamanoGrilla*tamanoGrilla;i++) {
+//	textGrilla.add(new JTextField(String.valueOf("3232"),4));
+//	frmGrilla.add(textGrilla);
+//	}
+		//sadasdasdasdad
+
+		JTextField [][] cajas = new JTextField [cantFilas][cantColumnas];
+		int posY=60;
+		
+		
+		for(int fila=0;fila<cajas.length;fila++) {
+			int posX=50;
+			for(int col=0;col<cajas[0].length;col++) {
+				cajas[fila][col] = new JTextField();
+				cajas[fila][col].setBounds(posX, posY, 55, 38);
+				frmGrilla.getContentPane().add(cajas[fila][col]);
+				posX+=50;
+			}
+			posY+=30;
+			System.out.println("hola");
+			
+		}
+		
 	
 	
 	
@@ -96,7 +117,7 @@ public class Presentacion {
 		
 		
 		
-		frmGrilla.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frmGrilla.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		
 	}
