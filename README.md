@@ -7,3 +7,14 @@ La idea es Hacer una matriz con numeros pseudoaleatorios multiplo por 3, esta se
  finalmente creamos metodos para validar si la matriz del usuario esta bien hecha, esta mal o quizas para agregar pistas.
  Mas tarde vamos a desarrollar mejoras a la interfaz de usuario, como un menu, un historial,emplear el sistema de niveles ya desarrollado, y hacer matrices mas grandes.
  
+ 
+ 
+ 
+ 3 2 1 1 1  r  8
+ 1 4 5  e
+ 7 3 1  s
+ res
+ 11 
+ 
+ ----------------
+ Implementado el metodo GameOver, la variable vidas, agregarMatriz, calcularTodo,getVidas, y otros metodos para la capa de presentacion

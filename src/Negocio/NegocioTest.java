@@ -1,5 +1,7 @@
 package Negocio;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,9 +18,23 @@ public class NegocioTest {
 	
 	
 	}
+	@Test
+	public void GameOverFunciona() {
+		neg.calculartodo();
+		neg.calculartodo();
+		neg.calculartodo();
+		assertTrue(neg.gameOver());
+	}
+	
 	
 	//n.calcularResultadoMatrizCreadaFilaColumna();
 	//n.mostrarValoresDesuma();
+	@Test (expected=IllegalArgumentException.class)
+	public void agregarValoresMatrizNoValCero() {
+		neg.agregarValoresMatriz(0,2,3);
+		
+	}
+	
 	@Test (expected=IllegalArgumentException.class)
 	public void agregarValoresMatrizNoValNeg() {
 		neg.agregarValoresMatriz(-1,2,3);
