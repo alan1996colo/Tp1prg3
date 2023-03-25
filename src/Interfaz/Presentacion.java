@@ -103,8 +103,8 @@ public class Presentacion {
 				posX+=50;
 			}
 			posY+=30;
-			System.out.println("hola");
-			//cambio n#7
+			// hoasdasd ad
+			
 			
 		}
 		
