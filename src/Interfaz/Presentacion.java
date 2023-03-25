@@ -1,53 +1,28 @@
 package Interfaz;
 
+import java.awt.Component;
 import java.awt.EventQueue;
-import java.awt.GridLayout;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
-import java.awt.BorderLayout;
-import java.awt.Container;
-import Negocio.Negocio;
-import javax.swing.JTextArea;
+import javax.swing.RootPaneContainer;
+import javax.swing.SwingConstants;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Presentacion {
 
-	private JFrame frmGrilla;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JFrame frame;
 	private int cantFilas=4;
 	private int cantColumnas=4;
-	
-	/*** apunta a mostrar valores de suma del negocio, muestra el objetivo a sumar de el juego */
-	public void mostrarValoresDeSuma() {}
+	private JTextField textField;
 
-	/*** decide el tamano de la matriz, restriccion a que sea cuadrado*/
-	public void inputFilaColumna() {}
-	
-	
-	/****
-	 * llama a mostrar de negocio, para actualizar la pantalla con los valores que puede ver el usuario
-	 * 
-	 * 
-	 * 
-	 * ***/
-	public void llamaraMostrar() {}
-	/****
-	 * valida un input del usuario, llama a calcular de negocios.
-	 * solo puede fallar 3 veces o pierde el juego.
-	 * 
-	 * 
-	 * 
-	 * ***/
-	public void validarHasta3vecesSepuedefallar() {}
-	
-	
-	/*****
-	 * valida los multiples inputs del usuario todos juntos, y si hay mas de 3 inputs mal pierde***/
-	public void validarTodo() {}
-	
-	
 	/**
 	 * Launch the application.
 	 */
@@ -56,7 +31,7 @@ public class Presentacion {
 			public void run() {
 				try {
 					Presentacion window = new Presentacion();
-					window.frmGrilla.setVisible(true);
+					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -75,52 +50,56 @@ public class Presentacion {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmGrilla = new JFrame();
-		frmGrilla.setTitle("Grilla");
-		frmGrilla.setBounds(100, 100, 450, 300);
-		//Container ControlHost = getContentPane();
-//	int tamanoGrilla= 4;// esto despues lo transformamos en un input del usuario
-//	Negocio neg =new Negocio(tamanoGrilla); //creamos el objeto negocio
-//	JPanel textGrilla = new JPanel();
-//	GridLayout gl=new GridLayout(tamanoGrilla,tamanoGrilla);
-//	textGrilla.setLayout(gl);
-//	for(int i=0;i<tamanoGrilla*tamanoGrilla;i++) {
-//	textGrilla.add(new JTextField(String.valueOf("3232"),4));
-//	frmGrilla.add(textGrilla);
-//	}
-		//sadasdasdasdad
-
+		frame = new JFrame();
+		frame.setResizable(false); // indicamos que no manipule el usuario el tamaño de la ventana
+		frame.setBounds(100, 100, 350, 368);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton.setBounds(129, 295, 89, 23);
+		frame.getContentPane().add(btnNewButton);
+		
+	
+		
 		JTextField [][] cajas = new JTextField [cantFilas][cantColumnas];
-		int posY=60;
+		int posY=55;
 		
 		
 		for(int fila=0;fila<cajas.length;fila++) {
-			int posX=50;
+			int posX=60;
 			for(int col=0;col<cajas[0].length;col++) {
 				cajas[fila][col] = new JTextField();
-				cajas[fila][col].setBounds(posX, posY, 55, 38);
-				frmGrilla.getContentPane().add(cajas[fila][col]);
+				cajas[fila][col].setBounds(posX, posY, 50, 50);
+				cajas[fila][col].setHorizontalAlignment(SwingConstants.CENTER);
+				frame.getContentPane().add(cajas[fila][col]);
 				posX+=50;
+				 // Evento en tipeado en cada caja, si introdusco cualquier carater hago focus en la siguiente caja.
+				cajas[fila][col].addKeyListener(new KeyAdapter() {
+					public void keyTyped(KeyEvent e) {
+						int NumeroTipeado = e.getKeyCode();
+						e.setKeyCode(NumeroTipeado);
+						var elementoActual= e.getSource();
+						((JTextField) elementoActual).transferFocus();
+					}
+					
+				});
+				
+				
 			}
-			posY+=30;
-			// hoasdasd ad
+			posY+=50;
+			
 			
 			
 		}
 		
-	
-	
-	
-	
-		
-		
-		
-		
-		
-		
-//		frmGrilla.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		
 	}
-
 }
