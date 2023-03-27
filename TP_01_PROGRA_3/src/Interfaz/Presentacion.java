@@ -20,7 +20,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class Presentacion {
-
+	private int hola;
 	private JFrame frame;
 	private int cantFilas;
 	private int cantColumnas;
