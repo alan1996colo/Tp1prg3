@@ -92,7 +92,7 @@ public class Negocio {
 	
 	
 	
-	
+	public int getTamano() {return this.tamano;}
 	
 	
 

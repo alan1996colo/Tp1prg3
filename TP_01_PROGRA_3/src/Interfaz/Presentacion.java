@@ -83,7 +83,7 @@ public class Presentacion {
 	 */
 	private void initialize() {
 		
-		
+		Negocio neg=new Negocio(4,1);// esto hay que modificarlo para que el negocio lo cree inconcientemente el usuario cuando decide de que nivel y cantidad de cuadros quiere jugar, por el momento lo dejamos en 4
 		frame = new JFrame();
 		frame.setResizable(false); // indicamos que no manipule el usuario el tamaño de la ventana
 		frame.setBounds(100, 100, 350, 368);
@@ -95,7 +95,7 @@ public class Presentacion {
 		
 		
 	
-		JTextField [][] cajas = new JTextField [cantFilas][cantColumnas];
+		JTextField [][] cajas = new JTextField [neg.getTamano()][neg.getTamano()];//pedimos el tamaño a la clase negocio, mucho mejor.
 		int posY=55;
 		
 		
@@ -124,9 +124,9 @@ public class Presentacion {
 		JButton Calcular = new JButton("Calcular");
 		Calcular.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Negocio negocio =new Negocio();
-				negocio.AgregarDatosMatriz(cajas);
-				System.out.println(negocio.calculartodo());
+			neg.AgregarDatosMatriz(cajas);
+				neg.calculartodo();
+				System.out.print(neg.gameOver());//revisamos si perdemos.
 		
 				
 				
@@ -138,7 +138,7 @@ public class Presentacion {
 		Calcular.setBounds(129, 295, 89, 23);
 		frame.getContentPane().add(Calcular);
 		
-		
+	
 		
 		
 	}
