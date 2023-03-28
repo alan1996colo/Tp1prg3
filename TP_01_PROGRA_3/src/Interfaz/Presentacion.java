@@ -126,6 +126,7 @@ public class Presentacion {
 			public void actionPerformed(ActionEvent e) {
 			neg.AgregarDatosMatriz(cajas);
 				neg.calculartodo();
+				
 				System.out.print(neg.gameOver());//revisamos si perdemos.
 		
 				
