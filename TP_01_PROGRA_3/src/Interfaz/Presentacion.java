@@ -48,6 +48,8 @@ public class Presentacion {
 	}
 
 	private JTextField textField;
+	
+	
 
 	/**
 	 * Launch the application.
@@ -92,6 +94,29 @@ public class Presentacion {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
+		
+		//vamos a hacer un array de labels para mostrar resultados de columnaas
+	JLabel[] arrLabelArriba=new JLabel[neg.getTamano()];
+	for(int i=0; i<arrLabelArriba.length;i++) {
+		arrLabelArriba[i]=new JLabel("--");
+				arrLabelArriba[i].setText(String.valueOf(neg.getResultadosColumna()[i]));
+				
+		arrLabelArriba[i].setBounds(70 + (i*50), 12, 121, 33);
+		frame.getContentPane().add(arrLabelArriba[i]);
+	}
+	
+	//hagamos otro para mostrar resultados de filas
+	
+	JLabel[] arrLabelDerecha=new JLabel[neg.getTamano()];
+	for(int i=0; i<arrLabelDerecha.length;i++) {
+		arrLabelDerecha[i]=new JLabel("--");
+				arrLabelDerecha[i].setText(String.valueOf(neg.getResultadoSumaFila()[i]));
+				
+		arrLabelDerecha[i].setBounds(300, 60+ (i*50), 121, 33);
+		frame.getContentPane().add(arrLabelDerecha[i]);
+	}
+	
+	
 		
 		
 	
@@ -139,10 +164,20 @@ public class Presentacion {
 		Calcular.setBounds(129, 295, 89, 23);
 		frame.getContentPane().add(Calcular);
 		
+		
+		
+		
+		
+		
 	
+		
+		
+		
+		
+		
+		
+		
 		
 		
 	}
-
-	
 }
