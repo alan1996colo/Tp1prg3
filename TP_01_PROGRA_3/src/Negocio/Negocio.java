@@ -6,15 +6,36 @@ import javax.swing.JTextField;
 
 public class Negocio {
 
-	private int tamano;
+	private  int tamano;
 	private int[][] matrizUsuario;
 	private int[][] matrizResuelta;
-	private int[] resultadoSumaFila;
-	private int[] resultadoSumaColumna;
+	private static int[] resultadoSumaFila;
+	private static int[] resultadoSumaColumna;
 	private int vidas = 3;
+	private static int cantFilas;
+	private static int cantColumnas;
+	private static String dificultad;
 	
 	
 	
+	public static String getDificultad() { // se usan
+		return dificultad;
+	}
+
+	public static int getCantFilas() { // se usan
+		return cantFilas;
+	}
+
+	
+
+	public static int getCantColumnas() { // se usan
+		return cantColumnas;
+	}
+
+	
+	
+	
+
 	private JTextField[][] matrizUsuariaPrueba;
 	/****
 	 * Por defecto crea una matriz de 4x4 con nivel 1.
@@ -47,12 +68,15 @@ public class Negocio {
 	 * Crea la grilla para el juego, hace una matriz cuadrada de tamañoXtamaño, con
 	 * valores multiplo de 3xnivel, se crea una matriz resuelta.
 	 ***/
-	public Negocio(int tamano, int nivel) {
+	public Negocio(int tamano, int nivel, String dificultad) {
 		if (tamano > 20) {
 			tamano = 20;
 		} // no queremos una matriz exageradamente grande
+		this.dificultad=dificultad;
 		this.tamano = tamano;
-		this.matrizResuelta = crearMatrizResuelta(tamano, nivel);
+		this.cantColumnas=tamano;
+		this.cantFilas=tamano;
+		this.matrizResuelta = crearMatrizResuelta(tamano , nivel); 
 		this.matrizUsuario = crearMatrizConCeros(tamano);
 		this.resultadoSumaColumna = new int[tamano];
 		this.resultadoSumaFila = new int[tamano];
@@ -92,7 +116,9 @@ public class Negocio {
 	
 	
 	
-	public int getTamano() {return this.tamano;}
+	public  int getTamano() {
+		return this.tamano;
+		}
 	
 	
 
@@ -108,8 +134,8 @@ public class Negocio {
 	 * la capa de presentacion
 	 ***/
 
-	public int[] getResultadoSumaFila() {
-		int[] copia = this.resultadoSumaFila.clone();
+	public static int[] getResultadoSumaFila() {
+		int[] copia = resultadoSumaFila.clone();
 		return copia;
 	}
 
@@ -117,8 +143,8 @@ public class Negocio {
 	 * Devuelve una copia del array con los resultados de cada columna para que lo
 	 * use la capa de presentacion
 	 ***/
-	public int[] getResultadosColumna() {
-		int[] copia = this.resultadoSumaColumna.clone();
+	public static int[] getResultadosColumna() {
+		int[] copia = resultadoSumaColumna.clone();
 		return copia;
 	}
 

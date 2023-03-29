@@ -25,7 +25,7 @@ public class Presentacion {
 	private int cantFilas;
 	private int cantColumnas;
 	
-	
+
 	public Presentacion(int cantFilas, int cantCol) {
 		this.cantFilas= cantFilas;
 		this.cantColumnas = cantCol;
@@ -79,48 +79,65 @@ public class Presentacion {
 		frame.setVisible(true);
 		
 	}
+	
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		
-		Negocio neg=new Negocio(4,1);// esto hay que modificarlo para que el negocio lo cree inconcientemente el usuario cuando decide de que nivel y cantidad de cuadros quiere jugar, por el momento lo dejamos en 4
+		System.out.println("Dificultad seleccionada:"+ Negocio.getDificultad());
+		JButton Calcular = new JButton("Calcular"); // lo coloco aca para poder modificar la posicion 
 		frame = new JFrame();
 		frame.setResizable(false); // indicamos que no manipule el usuario el tamaño de la ventana
-		frame.setBounds(100, 100, 350, 368);
+		
+		switch (Negocio.getDificultad()) {
+		case "Facil":
+			frame.setBounds(750, 100, 400, 400);
+			Calcular.setBounds(129, 325, 89, 23);
+			break;
+		case "Normal":
+			frame.setBounds(750, 100, 480, 500);
+			Calcular.setBounds(180, 430, 89, 23);
+			break;
+		case "Dificil":
+			frame.setBounds(750, 100, 580, 630);
+			Calcular.setBounds(250, 530, 89, 23);
+			break;
+		}
+		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		
-		//vamos a hacer un array de labels para mostrar resultados de columnaas
-	JLabel[] arrLabelArriba=new JLabel[neg.getTamano()];
-	for(int i=0; i<arrLabelArriba.length;i++) {
-		arrLabelArriba[i]=new JLabel("--");
-				arrLabelArriba[i].setText(String.valueOf(neg.getResultadosColumna()[i]));
-				
-		arrLabelArriba[i].setBounds(70 + (i*50), 12, 121, 33);
-		frame.getContentPane().add(arrLabelArriba[i]);
-	}
-	
-	//hagamos otro para mostrar resultados de filas
-	
-	JLabel[] arrLabelDerecha=new JLabel[neg.getTamano()];
-	for(int i=0; i<arrLabelDerecha.length;i++) {
-		arrLabelDerecha[i]=new JLabel("--");
-				arrLabelDerecha[i].setText(String.valueOf(neg.getResultadoSumaFila()[i]));
-				
-		arrLabelDerecha[i].setBounds(300, 60+ (i*50), 121, 33);
-		frame.getContentPane().add(arrLabelDerecha[i]);
-	}
+//		//vamos a hacer un array de labels para mostrar resultados de columnaas
+//	JLabel[] arrLabelArriba=new JLabel[Negocio.getTamano()];
+//	for(int i=0; i<arrLabelArriba.length;i++) {
+//		arrLabelArriba[i]=new JLabel("--");
+//				arrLabelArriba[i].setText(String.valueOf(Negocio.getResultadosColumna()[i]));
+//				
+//		arrLabelArriba[i].setBounds(70 + (i*50), 12, 121, 33);
+//		frame.getContentPane().add(arrLabelArriba[i]);
+//	}
+//	
+//	//hagamos otro para mostrar resultados de filas
+//	
+//	JLabel[] arrLabelDerecha=new JLabel[Negocio.getTamano()];
+//	for(int i=0; i<arrLabelDerecha.length;i++) {
+//		arrLabelDerecha[i]=new JLabel("--");
+//				arrLabelDerecha[i].setText(String.valueOf(Negocio.getResultadoSumaFila()[i]));
+//				
+//		arrLabelDerecha[i].setBounds(300, 60+ (i*50), 121, 33);
+//		frame.getContentPane().add(arrLabelDerecha[i]);
+//	}
 	
 	
 		
 		
 	
-		JTextField [][] cajas = new JTextField [neg.getTamano()][neg.getTamano()];//pedimos el tamaño a la clase negocio, mucho mejor.
+		JTextField [][] cajas = new JTextField [Negocio.getCantFilas()][Negocio.getCantColumnas()];//pedimos el tamaño a la clase negocio, mucho mejor.
+		System.out.println("Matriz :"+Negocio.getCantFilas()+"x"+Negocio.getCantFilas());
 		int posY=55;
 		
 		
@@ -146,38 +163,18 @@ public class Presentacion {
 			posY+=50;
 		}
 		
-		JButton Calcular = new JButton("Calcular");
+		
 		Calcular.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			neg.AgregarDatosMatriz(cajas);
-				neg.calculartodo();
-				
-				System.out.print(neg.gameOver());//revisamos si perdemos.
-		
-				
-				
-				
-			
-				
+//			neg.AgregarDatosMatriz(cajas);
+//				neg.calculartodo();
+//				
+//				System.out.print(neg.gameOver());//revisamos si perdemos.
 			}
 		});
-		Calcular.setBounds(129, 295, 89, 23);
 		frame.getContentPane().add(Calcular);
 		
 		
-		
-		
-		
-		
-	
-		
-		
-		
-		
-		
-		
-		
-		
-		
 	}
+	
 }

@@ -4,6 +4,9 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
+import Negocio.Negocio;
+
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -41,7 +44,7 @@ public class VentanaInicio {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(750, 100, 450, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -52,9 +55,11 @@ public class VentanaInicio {
 		
 		
 		
-		JButton btnNewButton = new JButton("Facil");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnFacil = new JButton("Facil");
+		btnFacil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				Negocio negocio = new Negocio(4,3,"Facil");
 				Presentacion inicio =new Presentacion();
 				frame.setVisible(false);
 				inicio.visible();
@@ -62,20 +67,35 @@ public class VentanaInicio {
 				
 			}
 		});
-		btnNewButton.setBounds(164, 164, 91, 23);
-		frame.getContentPane().add(btnNewButton);
+		btnFacil.setBounds(164, 164, 91, 23);
+		frame.getContentPane().add(btnFacil);
 		
-		JButton btnNewButton_1 = new JButton("Normal");
-		btnNewButton_1.setBounds(164, 205, 91, 23);
-		frame.getContentPane().add(btnNewButton_1);
-		
-		JButton btnNewButton_2 = new JButton("Dificil");
-		btnNewButton_2.addActionListener(new ActionListener() {
+		JButton btnNormal = new JButton("Normal");
+		btnNormal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				Negocio negocio = new Negocio(6,4,"Normal");
+				Presentacion inicio =new Presentacion();
+				frame.setVisible(false);
+				inicio.visible();
 			}
 		});
-		btnNewButton_2.setBounds(164, 250, 91, 23);
-		frame.getContentPane().add(btnNewButton_2);
+		
+		btnNormal.setBounds(164, 205, 91, 23);
+		frame.getContentPane().add(btnNormal);
+		
+		JButton btnDificil = new JButton("Dificil");
+		btnDificil.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				Negocio negocio = new Negocio(8,5,"Dificil");
+				Presentacion inicio =new Presentacion();
+				frame.setVisible(false);
+				inicio.visible();
+			}
+		});
+		btnDificil.setBounds(164, 250, 91, 23);
+		frame.getContentPane().add(btnDificil);
 		
 		JLabel lblNewLabel_1 = new JLabel("Seleccione dificultad");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 20));

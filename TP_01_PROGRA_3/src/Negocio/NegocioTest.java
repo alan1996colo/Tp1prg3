@@ -10,7 +10,7 @@ public class NegocioTest {
 	
 	@Before
 	public void setUp() throws Exception {//ejecuta una vez lo que este aca adentro por cada test
-	 neg=new Negocio(4,1);
+	// neg=new Negocio(4,1);
 	//n.mostrar();
 	//n.mostrarValoresDesuma();
 	
