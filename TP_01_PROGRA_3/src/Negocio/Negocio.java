@@ -9,26 +9,26 @@ public class Negocio {
 	private  int tamano;
 	private int[][] matrizUsuario;
 	private int[][] matrizResuelta;
-	private static int[] resultadoSumaFila;
-	private static int[] resultadoSumaColumna;
-	private int vidas = 3;
-	private static int cantFilas;
-	private static int cantColumnas;
-	private static String dificultad;
+	private int[] resultadoSumaFila;
+	private  int[] resultadoSumaColumna;
+	private  int vidas = 3;
+	private  int cantFilas;
+	private  int cantColumnas;
+	private  String dificultad;
 	
 	
 	
-	public static String getDificultad() { // se usan
+	public  String getDificultad() { // se usan
 		return dificultad;
 	}
 
-	public static int getCantFilas() { // se usan
+	public  int getCantFilas() { // se usan
 		return cantFilas;
 	}
 
 	
 
-	public static int getCantColumnas() { // se usan
+	public  int getCantColumnas() { // se usan
 		return cantColumnas;
 	}
 
@@ -89,6 +89,9 @@ public class Negocio {
 		PasarMatrizEntero();
 	}
 	
+	// public boolean ganaste() {
+		
+//	}
 	private void PasarMatrizEntero() {
 		int valor;
 		for(int i=0;i<matrizUsuariaPrueba.length;i++  ) {
@@ -134,7 +137,7 @@ public class Negocio {
 	 * la capa de presentacion
 	 ***/
 
-	public static int[] getResultadoSumaFila() {
+	public  int[] getResultadoSumaFila() {
 		int[] copia = resultadoSumaFila.clone();
 		return copia;
 	}
@@ -143,7 +146,7 @@ public class Negocio {
 	 * Devuelve una copia del array con los resultados de cada columna para que lo
 	 * use la capa de presentacion
 	 ***/
-	public static int[] getResultadosColumna() {
+	public int[] getResultadosColumna() {
 		int[] copia = resultadoSumaColumna.clone();
 		return copia;
 	}
@@ -240,6 +243,18 @@ public class Negocio {
 		return (int) (Math.random() * nivel * 3 + 1);
 	}
 
+	public void agregarUNvalorMatriz(int posx, int posy, int valor) {
+		if (gameOver())
+			throw new RuntimeException(
+					"El juego ha terminado,Esto no deberia mostrarse nunca");
+		if (posx < 0)
+			throw new IllegalArgumentException("No existen posiciones negativas " + posx);
+		if (posy < 0)
+			throw new IllegalArgumentException("No existen posiciones negativas " + posy);
+		if (valor <= 0)
+			throw new IllegalArgumentException("No se permiten valores negativos o iguales a cero " + valor);
+		this.matrizUsuario[posx][posy]=valor;
+	}
 	// Agrega los input a la matriz de usuario
 	public void agregarValoresMatriz(int posx, int posy, int valor)  {
 		if (gameOver())
@@ -285,14 +300,18 @@ public class Negocio {
 	 * entonces devuelve true de lo contrario la matriz es incorrecta y esta mal
 	 * hecha y mostrara false. Si el el usuario se equivoca, le resta una vida
 	 **/
-	public boolean calculartodo() {
+	public boolean calculartodo() {//parece que aca no es el problema de las vidas
+		
 		for (int z = 0; z < this.tamano; z++) {
+		
 			if (sumarFila(z, this.matrizUsuario) != this.resultadoSumaFila[z]) {
-				this.vidas = vidas - 1;
+			this.vidas = vidas - 1;
+				
 				return false;
 			}
 			if (sumarColumna(z, this.matrizUsuario) != this.resultadoSumaColumna[z]) {
 				this.vidas = vidas - 1;
+				
 				return false;
 			}
 			// Si alguna fila o alguna columna no da igual a lo antes calculado, entonces
