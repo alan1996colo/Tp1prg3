@@ -11,6 +11,8 @@ import javax.swing.SwingConstants;
 import Negocio.Negocio;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -18,6 +20,8 @@ import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextPane;
+import java.awt.Color;
 
 public class Presentacion {
 
@@ -31,6 +35,28 @@ public class Presentacion {
 		initialize();
 
 	}
+	private void SumTargetTop() {
+		JLabel[] arrLabelArriba = new JLabel[negocio.getTamano()];
+		for (int i = 0; i < arrLabelArriba.length; i++) {
+			arrLabelArriba[i] = new JLabel("--");
+			arrLabelArriba[i].setText(String.valueOf(negocio.getResultadosColumna()[i]));
+
+			arrLabelArriba[i].setBounds(70 + (i * 50), 12, 121, 33);
+			frame.getContentPane().add(arrLabelArriba[i]);
+		}
+		
+	}
+	private void SumTargetSide() {
+		JLabel[] arrLabelDerecha = new JLabel[negocio.getTamano()];
+		for (int i = 0; i < arrLabelDerecha.length; i++) {
+			arrLabelDerecha[i] = new JLabel("--");
+			arrLabelDerecha[i].setText(String.valueOf(negocio.getResultadoSumaFila()[i]));
+
+			arrLabelDerecha[i].setBounds(300, 60 + (i * 50), 121, 33);
+			frame.getContentPane().add(arrLabelDerecha[i]);
+		}
+	}
+	
 
 	public int getCantFilas() {
 		return cantFilas;
@@ -112,25 +138,13 @@ public class Presentacion {
 		frame.getContentPane().setLayout(null);
 
 //		//vamos a hacer un array de labels para mostrar resultados de columnaas
-		JLabel[] arrLabelArriba = new JLabel[negocio.getTamano()];
-		for (int i = 0; i < arrLabelArriba.length; i++) {
-			arrLabelArriba[i] = new JLabel("--");
-			arrLabelArriba[i].setText(String.valueOf(negocio.getResultadosColumna()[i]));
-
-			arrLabelArriba[i].setBounds(70 + (i * 50), 12, 121, 33);
-			frame.getContentPane().add(arrLabelArriba[i]);
-		}
+	
+		SumTargetTop();
+		
 //	
 //	//hagamos otro para mostrar resultados de filas
-//	
-		JLabel[] arrLabelDerecha = new JLabel[negocio.getTamano()];
-		for (int i = 0; i < arrLabelDerecha.length; i++) {
-			arrLabelDerecha[i] = new JLabel("--");
-			arrLabelDerecha[i].setText(String.valueOf(negocio.getResultadoSumaFila()[i]));
-
-			arrLabelDerecha[i].setBounds(300, 60 + (i * 50), 121, 33);
-			frame.getContentPane().add(arrLabelDerecha[i]);
-		}
+	
+		SumTargetSide();
 
 		JTextField[][] cajas = new JTextField[negocio.getCantFilas()][negocio.getCantColumnas()];// pedimos el tamaño a
 																									// la clase negocio,
@@ -144,6 +158,8 @@ public class Presentacion {
 				cajas[fila][col] = new JTextField();
 				cajas[fila][col].setBounds(posX, posY, 50, 50);
 				cajas[fila][col].setHorizontalAlignment(SwingConstants.CENTER);
+				//cajas[fila][col].setBackground(Color.RED);
+				
 				frame.getContentPane().add(cajas[fila][col]);
 				posX += 50;
 				int filaaa = fila;
@@ -158,7 +174,10 @@ public class Presentacion {
 						((JTextField) elementoActual).setText(""); // permite poner solo un numero
 						// System.out.println(Tipeado);
 						negocio.agregarUNvalorMatriz(filaaa, columna, Integer.parseInt(String.valueOf(Tipeado)));
-
+						if(negocio.validarInput(filaaa, columna, Integer.parseInt(String.valueOf(Tipeado)))){
+							cajas[filaaa][columna].setBackground(Color.GREEN);
+						}
+						else {cajas[filaaa][columna].setBackground(Color.RED);}
 						((JTextField) elementoActual).transferFocus();
 					}
 				});
@@ -173,16 +192,26 @@ public class Presentacion {
 		Calcular.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// negocio.AgregarDatosMatriz(cajas);
-				negocio.calculartodo();
-//				
+				if(negocio.calculartodo()) {
+					JOptionPane.showMessageDialog(null,"Ganaste" );
+					//OpcionParaGanaste();
+				}
+				if(negocio.gameOver()) {
+					JOptionPane.showMessageDialog(null,"Perdiste" );
+					
+				}
 				System.out.println("Si perdiste muestra True-->"+negocio.gameOver()+"<---");// revisamos si perdemos.
-			//	System.out.println("SI GANASTE MUESTRA TRUE--->"+negocio.calculartodo()+"<--");
+				//System.out.println("SI GANASTE MUESTRA TRUE--->"+negocio.calculartodo()+"<--");
 				System.out.println("la matriz de usuario es");
 				negocio.mostrarMatrizUsuario();
 			}
 		});
 		frame.getContentPane().add(Calcular);
+		
+		JTextPane textPane = new JTextPane();
+		textPane.setBackground(Color.RED);
+		textPane.setBounds(84, 29, 41, 20);
+		frame.getContentPane().add(textPane);
 
 	}
-
 }

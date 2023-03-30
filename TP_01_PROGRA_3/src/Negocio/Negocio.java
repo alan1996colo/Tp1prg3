@@ -84,7 +84,7 @@ public class Negocio {
 	}
 	
 	// agrega los datos del usuario a la matrizuusario
-	public void AgregarDatosMatriz(JTextField[][] cajas) {
+	public void AgregarDatosMatriz(JTextField[][] cajas) {  //cambiar a recibir matriz de enteros., calcular todo directamente.
 		this.matrizUsuariaPrueba=cajas;
 		PasarMatrizEntero();
 	}
@@ -157,8 +157,8 @@ public class Negocio {
 	 * numero en verde o en rojo ---ATENCION: este metodo no verifica que el input
 	 * sea definitivamete correcto, solo parcialmente con los datos del momento
 	 *****/
-	public boolean validarInput(int input, int coordy, int coordx) {
-		if (input < 1 || coordy < 0 || coordx < 0 || coordx >= this.tamano || coordy >= this.tamano) {// no queremos
+	public boolean validarInput  (int coordy,int coordx,int input) {
+		if (input < 1 || coordy < 0 || coordx < 0 || coordx >= this.tamano || coordy >= this.tamano){// no queremos
 																										// inputs de
 																										// naturaleza
 																										// invalida
