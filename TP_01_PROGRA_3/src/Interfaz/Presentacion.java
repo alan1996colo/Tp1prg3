@@ -35,6 +35,17 @@ public class Presentacion {
 		initialize();
 
 	}
+	
+	private boolean esNumero(char tipeado) {
+		int valor=Character.getNumericValue(tipeado);
+		if((valor>0 && valor<=9) || tipeado=='\n') {
+			System.out.println("Es un valor valido");
+			return true;
+			
+		}
+		System.out.println("no es un valor valido");
+		return false;
+	}
 	private void SumTargetTop() {
 		JLabel[] arrLabelArriba = new JLabel[negocio.getTamano()];
 		for (int i = 0; i < arrLabelArriba.length; i++) {
@@ -168,18 +179,31 @@ public class Presentacion {
 				// la siguiente caja.
 				cajas[fila][col].addKeyListener(new KeyAdapter() {
 					public void keyTyped(KeyEvent e) {
-						char Tipeado = e.getKeyChar();
-						e.setKeyChar(Tipeado);
-						var elementoActual = e.getSource();
-						((JTextField) elementoActual).setText(""); // permite poner solo un numero
-						// System.out.println(Tipeado);
-						negocio.agregarUNvalorMatriz(filaaa, columna, Integer.parseInt(String.valueOf(Tipeado)));
-						if(negocio.validarInput(filaaa, columna, Integer.parseInt(String.valueOf(Tipeado)))){
-							cajas[filaaa][columna].setBackground(Color.GREEN);
+						
+						char tipeado = e.getKeyChar();
+						var elementoActual = e.getSource();	
+						JTextField CaracteresIngresados = (JTextField) elementoActual;
+						if(esNumero(tipeado)) {
+							if(CaracteresIngresados.getText().length()==1 && tipeado == '\n' ) {
+								e.consume(); // Evita que se ingresen más caracteres admite 1
+								CaracteresIngresados.transferFocus();
+							}
+							else if(CaracteresIngresados.getText().length()==2) {
+								e.consume(); // Evita que se ingresen más caracteres admite 2
+								CaracteresIngresados.transferFocus();
+							}
+							
+							
 						}
-						else {cajas[filaaa][columna].setBackground(Color.RED);}
-						((JTextField) elementoActual).transferFocus();
+						else {
+							CaracteresIngresados.setText("");
+							System.out.println("poniendo valor vacio");
+							//JOptionPane.showMessageDialog(null,"Ingrese solo numeros por favor!" );
+							CaracteresIngresados.setText("");
+						}
 					}
+
+				
 				});
 			}
 			posY += 50;
@@ -191,7 +215,8 @@ public class Presentacion {
 		
 		Calcular.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// negocio.AgregarDatosMatriz(cajas);
+				negocio.AgregarDatosMatriz(cajas); // arreglar lo que recibe este metodo(deberia recibir matriz de int)
+				negocio.mostrarMatrizUsuario();
 				if(negocio.calculartodo()) {
 					JOptionPane.showMessageDialog(null,"Ganaste" );
 					//OpcionParaGanaste();
@@ -200,18 +225,13 @@ public class Presentacion {
 					JOptionPane.showMessageDialog(null,"Perdiste" );
 					
 				}
-				System.out.println("Si perdiste muestra True-->"+negocio.gameOver()+"<---");// revisamos si perdemos.
+				//System.out.println("Si perdiste muestra True-->"+negocio.gameOver()+"<---");// revisamos si perdemos.
 				//System.out.println("SI GANASTE MUESTRA TRUE--->"+negocio.calculartodo()+"<--");
-				System.out.println("la matriz de usuario es");
-				negocio.mostrarMatrizUsuario();
+				//System.out.println("la matriz de usuario es");
+				//negocio.mostrarMatrizUsuario();
 			}
 		});
 		frame.getContentPane().add(Calcular);
-		
-		JTextPane textPane = new JTextPane();
-		textPane.setBackground(Color.RED);
-		textPane.setBounds(84, 29, 41, 20);
-		frame.getContentPane().add(textPane);
 
 	}
 }
