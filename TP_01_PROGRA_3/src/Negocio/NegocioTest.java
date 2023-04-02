@@ -29,6 +29,9 @@ public class NegocioTest {
 	
 	//n.calcularResultadoMatrizCreadaFilaColumna();
 	//n.mostrarValoresDesuma();
+	
+	
+	//Hay que rehacer estos test porque agregarValoreMatriz cambio su implementacions 
 	@Test (expected=IllegalArgumentException.class)
 	public void agregarValoresMatrizNoValCero() {
 		neg.agregarValoresMatriz(0,2,3);
@@ -50,6 +53,14 @@ public class NegocioTest {
 		neg.agregarValoresMatriz(1,-2,3);
 		
 	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void agregarValorComillasEvitameROmperTOdo() {
+		String[][] nova= new String[2][2];
+		nova[1][1]="";
+		neg.agregarValoresMatriz(nova);
+	}//despues ver bien como hacer este test, tenemos un problema cuando el usuario no completa los campos,deberiamos hacer algo con eso.
+	
 	
 	@Test (expected=IllegalArgumentException.class)
 	public void validarInputNonsepuedeNegativoTest() {

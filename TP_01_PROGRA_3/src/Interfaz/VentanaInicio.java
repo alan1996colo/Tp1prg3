@@ -58,7 +58,7 @@ public class VentanaInicio {
 		btnFacil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				Negocio negocio = new Negocio(4, 1, "Facil");
+				Negocio negocio = new Negocio(4, 4, "Facil");
 				Presentacion inicio = new Presentacion(negocio);
 				frame.setVisible(false);
 				inicio.visible();

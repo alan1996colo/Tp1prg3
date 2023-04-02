@@ -6,37 +6,30 @@ import javax.swing.JTextField;
 
 public class Negocio {
 
-	private  int tamano;
+	private int tamano;
 	private int[][] matrizUsuario;
 	private int[][] matrizResuelta;
 	private int[] resultadoSumaFila;
-	private  int[] resultadoSumaColumna;
-	private  int vidas = 3;
-	private  int cantFilas;
-	private  int cantColumnas;
-	private  String dificultad;
-	
-	
-	
-	public  String getDificultad() { // se usan
+	private int[] resultadoSumaColumna;
+	private int vidas = 3;
+	private int cantFilas;
+	private int cantColumnas;
+	private String dificultad;
+
+	public String getDificultad() { // se usan
 		return dificultad;
 	}
 
-	public  int getCantFilas() { // se usan
+	public int getCantFilas() { // se usan
 		return cantFilas;
 	}
 
-	
-
-	public  int getCantColumnas() { // se usan
+	public int getCantColumnas() { // se usan
 		return cantColumnas;
 	}
 
-	
-	
-	
-
 	private JTextField[][] matrizUsuariaPrueba;
+
 	/****
 	 * Por defecto crea una matriz de 4x4 con nivel 1.
 	 ***/
@@ -72,58 +65,42 @@ public class Negocio {
 		if (tamano > 20) {
 			tamano = 20;
 		} // no queremos una matriz exageradamente grande
-		this.dificultad=dificultad;
+		this.dificultad = dificultad;
 		this.tamano = tamano;
-		this.cantColumnas=tamano;
-		this.cantFilas=tamano;
-		this.matrizResuelta = crearMatrizResuelta(tamano , nivel); 
+		this.cantColumnas = tamano;
+		this.cantFilas = tamano;
+		this.matrizResuelta = crearMatrizResuelta(tamano, nivel);
 		this.matrizUsuario = crearMatrizConCeros(tamano);
 		this.resultadoSumaColumna = new int[tamano];
 		this.resultadoSumaFila = new int[tamano];
 		calcularResultadoMatrizCreadaFilaColumna();
 	}
-	
-	// agrega los datos del usuario a la matrizuusario
-	public void AgregarDatosMatriz(JTextField[][] cajas) {  //cambiar a recibir matriz de enteros., calcular todo directamente.
-		this.matrizUsuariaPrueba=cajas;
-		PasarMatrizEntero();
-	}
-	
+	// ESTO NO ESTA BIEN, DEJA DE USAR ESTE METODO PORQUE NOS DESAPRUEBAN EL TP, LA
+	// CAPA DE NEGOCIO NO DEBE CONOCER A LA CAPA DE PRESENTACION
+	// SUGERENCIA: MIRA EL METODO agregarValoresMatriz(int[][]);
+	/*
+	 * public void AgregarDatosMatriz(JTextField[][] cajas) { //cambiar a recibir
+	 * matriz de enteros., calcular todo directamente.
+	 * this.matrizUsuariaPrueba=cajas; PasarMatrizEntero(); }
+	 */
+
 	// public boolean ganaste() {
-		
+
 //	}
 	private void PasarMatrizEntero() {
 		int valor;
-		for(int i=0;i<matrizUsuariaPrueba.length;i++  ) {
-			for(int j=0;j<matrizUsuariaPrueba[i].length;j++) {
-				valor =Integer.parseInt(matrizUsuariaPrueba[i][j].getText()); 
+		for (int i = 0; i < matrizUsuariaPrueba.length; i++) {
+			for (int j = 0; j < matrizUsuariaPrueba[i].length; j++) {
+				valor = Integer.parseInt(matrizUsuariaPrueba[i][j].getText());
 				matrizUsuario[i][j] = valor;
- 			}
-			
+			}
+
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public  int getTamano() {
+
+	public int getTamano() {
 		return this.tamano;
-		}
-	
-	
+	}
 
 	/****
 	 * muestra cuantas vidas le quedan al usuario
@@ -137,7 +114,7 @@ public class Negocio {
 	 * la capa de presentacion
 	 ***/
 
-	public  int[] getResultadoSumaFila() {
+	public int[] getResultadoSumaFila() {
 		int[] copia = resultadoSumaFila.clone();
 		return copia;
 	}
@@ -157,8 +134,8 @@ public class Negocio {
 	 * numero en verde o en rojo ---ATENCION: este metodo no verifica que el input
 	 * sea definitivamete correcto, solo parcialmente con los datos del momento
 	 *****/
-	public boolean validarInput  (int coordy,int coordx,int input) {
-		if (input < 1 || coordy < 0 || coordx < 0 || coordx >= this.tamano || coordy >= this.tamano){// no queremos
+	public boolean validarInput(int coordy, int coordx, int input) {
+		if (input < 1 || coordy < 0 || coordx < 0 || coordx >= this.tamano || coordy >= this.tamano) {// no queremos
 																										// inputs de
 																										// naturaleza
 																										// invalida
@@ -243,35 +220,28 @@ public class Negocio {
 		return (int) (Math.random() * nivel * 3 + 1);
 	}
 
-	public void agregarUNvalorMatriz(int posx, int posy, int valor) {
+	public void agregarUNvalorMatriz(int posx, int posy, int valor) {// En desUso, ahora se agrega todo junto al
+																		// presionar calcular
 		if (gameOver())
-			throw new RuntimeException(
-					"El juego ha terminado,Esto no deberia mostrarse nunca");
+			throw new RuntimeException("El juego ha terminado,Esto no deberia mostrarse nunca");
 		if (posx < 0)
 			throw new IllegalArgumentException("No existen posiciones negativas " + posx);
 		if (posy < 0)
 			throw new IllegalArgumentException("No existen posiciones negativas " + posy);
 		if (valor <= 0)
 			throw new IllegalArgumentException("No se permiten valores negativos o iguales a cero " + valor);
-		this.matrizUsuario[posx][posy]=valor;
+		this.matrizUsuario[posx][posy] = valor;
 	}
+
 	// Agrega los input a la matriz de usuario
-	public void agregarValoresMatriz(int posx, int posy, int valor)  {
+	public void agregarValoresMatriz(int[][] matrizdeValores) {
 		if (gameOver())
-			throw new RuntimeException(
-					"El juego ha terminado,Esto no deberia mostrarse nunca");
-		if (posx < 0)
-			throw new IllegalArgumentException("No existen posiciones negativas " + posx);
-		if (posy < 0)
-			throw new IllegalArgumentException("No existen posiciones negativas " + posy);
-		if (valor <= 0)
-			throw new IllegalArgumentException("No se permiten valores negativos o iguales a cero " + valor);
+			throw new RuntimeException("El juego ha terminado,Esto no deberia mostrarse nunca");
 
 		for (int fil = 0; fil < this.matrizUsuario.length; fil++) {
 			for (int col = 0; col < this.matrizUsuario[0].length; col++) {
-				if (fil == posx && col == posy) {
-					this.matrizUsuario[fil][col] = valor;
-				}
+
+				this.matrizUsuario[fil][col] = matrizdeValores[fil][col];
 			}
 		}
 	}
@@ -300,18 +270,18 @@ public class Negocio {
 	 * entonces devuelve true de lo contrario la matriz es incorrecta y esta mal
 	 * hecha y mostrara false. Si el el usuario se equivoca, le resta una vida
 	 **/
-	public boolean calculartodo() {//parece que aca no es el problema de las vidas
-		
+	public boolean calculartodo() {// parece que aca no es el problema de las vidas
+
 		for (int z = 0; z < this.tamano; z++) {
-		
+
 			if (sumarFila(z, this.matrizUsuario) != this.resultadoSumaFila[z]) {
-			this.vidas = vidas - 1;
-				
+				this.vidas = vidas - 1;
+
 				return false;
 			}
 			if (sumarColumna(z, this.matrizUsuario) != this.resultadoSumaColumna[z]) {
 				this.vidas = vidas - 1;
-				
+
 				return false;
 			}
 			// Si alguna fila o alguna columna no da igual a lo antes calculado, entonces
@@ -343,18 +313,19 @@ public class Negocio {
 			System.out.println("");
 			for (int j = 0; j < this.matrizResuelta[0].length; j++) {
 
-				System.out.print(matrizResuelta[i][j]);
+				System.out.print("[" + matrizResuelta[i][j] + "]");
 			}
 		}
 		System.out.println("\n------");
 	}
+
 	// muestra la matriz que el usuario introduzco
 	public void mostrarMatrizUsuario() {
 		for (int i = 0; i < matrizUsuario.length; i++) {
 			System.out.println("");
-			for (int j = 0; j <matrizUsuario[0].length; j++) {
+			for (int j = 0; j < matrizUsuario[0].length; j++) {
 
-				System.out.print(matrizUsuario[i][j]);
+				System.out.print("[" + matrizUsuario[i][j] + "]");
 			}
 		}
 		System.out.println("\n------");
@@ -373,9 +344,5 @@ public class Negocio {
 
 	public static void main(String[] args) {
 	}
-
-	
-
-	
 
 }

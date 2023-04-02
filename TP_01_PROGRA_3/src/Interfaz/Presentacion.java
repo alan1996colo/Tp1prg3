@@ -29,23 +29,34 @@ public class Presentacion {
 	private int cantFilas;
 	private int cantColumnas;
 	private Negocio negocio;
+	JLabel vidas = new JLabel("-");
 
 	public Presentacion(Negocio neg) {
 		this.negocio = neg;
 		initialize();
 
 	}
-	
+
 	private boolean esNumero(char tipeado) {
-		int valor=Character.getNumericValue(tipeado);
-		if((valor>0 && valor<=9) || tipeado=='\n') {
+		int valor = Character.getNumericValue(tipeado);
+		if ((valor >= 0 && valor <= 9) || tipeado == '\n') {// modifique esta linea para que admita 10,20,30,40,etc
+															// numeros finalizados en cero
 			System.out.println("Es un valor valido");
 			return true;
-			
+
 		}
 		System.out.println("no es un valor valido");
 		return false;
 	}
+
+	private void mostrarVidas() {
+
+		this.vidas.setText(String.valueOf(negocio.getVidas()));
+		this.vidas.setBounds(300, 5, 100, 33);
+		this.vidas.setForeground(Color.red);
+		frame.getContentPane().add(vidas);
+	}
+
 	private void SumTargetTop() {
 		JLabel[] arrLabelArriba = new JLabel[negocio.getTamano()];
 		for (int i = 0; i < arrLabelArriba.length; i++) {
@@ -55,8 +66,9 @@ public class Presentacion {
 			arrLabelArriba[i].setBounds(70 + (i * 50), 12, 121, 33);
 			frame.getContentPane().add(arrLabelArriba[i]);
 		}
-		
+
 	}
+
 	private void SumTargetSide() {
 		JLabel[] arrLabelDerecha = new JLabel[negocio.getTamano()];
 		for (int i = 0; i < arrLabelDerecha.length; i++) {
@@ -67,7 +79,6 @@ public class Presentacion {
 			frame.getContentPane().add(arrLabelDerecha[i]);
 		}
 	}
-	
 
 	public int getCantFilas() {
 		return cantFilas;
@@ -87,6 +98,18 @@ public class Presentacion {
 
 	public void setCantColumnas(int cantColumnas) {
 		this.cantColumnas = cantColumnas;
+	}
+
+	public int[][] transformarCajasAmatriz(JTextField[][] cajas) {
+		int[][] ret = new int[cajas.length][cajas.length];
+		for (int i = 0; i < cajas.length; i++) {
+			for (int j = 0; j < cajas.length; j++) {
+				ret[i][j] = Integer.parseInt(cajas[i][j].getText());
+			}
+		}
+
+		return ret;
+
 	}
 
 	private JTextField textField;
@@ -149,13 +172,14 @@ public class Presentacion {
 		frame.getContentPane().setLayout(null);
 
 //		//vamos a hacer un array de labels para mostrar resultados de columnaas
-	
+
 		SumTargetTop();
-		
+
 //	
 //	//hagamos otro para mostrar resultados de filas
-	
+
 		SumTargetSide();
+		mostrarVidas();
 
 		JTextField[][] cajas = new JTextField[negocio.getCantFilas()][negocio.getCantColumnas()];// pedimos el tamaño a
 																									// la clase negocio,
@@ -169,8 +193,8 @@ public class Presentacion {
 				cajas[fila][col] = new JTextField();
 				cajas[fila][col].setBounds(posX, posY, 50, 50);
 				cajas[fila][col].setHorizontalAlignment(SwingConstants.CENTER);
-				//cajas[fila][col].setBackground(Color.RED);
-				
+				// cajas[fila][col].setBackground(Color.RED);
+
 				frame.getContentPane().add(cajas[fila][col]);
 				posX += 50;
 				int filaaa = fila;
@@ -179,56 +203,63 @@ public class Presentacion {
 				// la siguiente caja.
 				cajas[fila][col].addKeyListener(new KeyAdapter() {
 					public void keyTyped(KeyEvent e) {
-						
+
 						char tipeado = e.getKeyChar();
-						var elementoActual = e.getSource();	
+						var elementoActual = e.getSource();
 						JTextField CaracteresIngresados = (JTextField) elementoActual;
-						if(esNumero(tipeado)) {
-							if(CaracteresIngresados.getText().length()==1 && tipeado == '\n' ) {
+
+						if (esNumero(tipeado)) {
+							if (CaracteresIngresados.getText().length() == 1 && tipeado == '\n') {
 								e.consume(); // Evita que se ingresen más caracteres admite 1
+
 								CaracteresIngresados.transferFocus();
-							}
-							else if(CaracteresIngresados.getText().length()==2) {
+							} else if (CaracteresIngresados.getText().length() == 2) {
 								e.consume(); // Evita que se ingresen más caracteres admite 2
+
 								CaracteresIngresados.transferFocus();
 							}
-							
-							
-						}
-						else {
+
+						} else {
 							CaracteresIngresados.setText("");
 							System.out.println("poniendo valor vacio");
-							//JOptionPane.showMessageDialog(null,"Ingrese solo numeros por favor!" );
+							// JOptionPane.showMessageDialog(null,"Ingrese solo numeros por favor!" );
 							CaracteresIngresados.setText("");
 						}
+
 					}
 
-				
 				});
+
 			}
 			posY += 50;
 		}
+
 //esto es solo para ver el resultado despues lo sacamos
 		negocio.mostrar();
-		
-		//sacar luego
-		
+
+		// sacar luego
+
 		Calcular.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				negocio.AgregarDatosMatriz(cajas); // arreglar lo que recibe este metodo(deberia recibir matriz de int)
+				negocio.agregarValoresMatriz(transformarCajasAmatriz(cajas)); // arreglar lo que recibe este
+																				// metodo(deberia recibir matriz de int)
 				negocio.mostrarMatrizUsuario();
-				if(negocio.calculartodo()) {
-					JOptionPane.showMessageDialog(null,"Ganaste" );
-					//OpcionParaGanaste();
+
+				if (negocio.calculartodo()) {
+					JOptionPane.showMessageDialog(null, "Ganaste");
+					// OpcionParaGanaste();
 				}
-				if(negocio.gameOver()) {
-					JOptionPane.showMessageDialog(null,"Perdiste" );
-					
+				mostrarVidas();
+				if (negocio.gameOver()) {
+					JOptionPane.showMessageDialog(null, "Perdiste");
+
 				}
-				//System.out.println("Si perdiste muestra True-->"+negocio.gameOver()+"<---");// revisamos si perdemos.
-				//System.out.println("SI GANASTE MUESTRA TRUE--->"+negocio.calculartodo()+"<--");
-				//System.out.println("la matriz de usuario es");
-				//negocio.mostrarMatrizUsuario();
+				// System.out.println("Si perdiste muestra
+				// True-->"+negocio.gameOver()+"<---");// revisamos si perdemos.
+				// System.out.println("SI GANASTE MUESTRA
+				// TRUE--->"+negocio.calculartodo()+"<--");
+				// System.out.println("la matriz de usuario es");
+				// negocio.mostrarMatrizUsuario();
 			}
 		});
 		frame.getContentPane().add(Calcular);
