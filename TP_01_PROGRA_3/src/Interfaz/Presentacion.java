@@ -30,6 +30,7 @@ public class Presentacion {
 	private int cantColumnas;
 	private Negocio negocio;
 	JLabel vidas = new JLabel("-");
+	private JTextField textField;
 
 	public Presentacion(Negocio neg) {
 		this.negocio = neg;
@@ -37,17 +38,39 @@ public class Presentacion {
 
 	}
 
-	private boolean esNumero(char tipeado) {
+	private boolean esNumeroYteclasCorrectas(char tipeado) {
 		int valor = Character.getNumericValue(tipeado);
-		if ((valor >= 0 && valor <= 9) || tipeado == '\n') {// modifique esta linea para que admita 10,20,30,40,etc
+		if ((valor >= 0 && valor <= 9) || tipeado == '\n' || tipeado== '\u0008') {// modifique esta linea para que admita 10,20,30,40,etc
 															// numeros finalizados en cero
-			System.out.println("Es un valor valido");
+			
 			return true;
 
 		}
-		System.out.println("no es un valor valido");
+		
 		return false;
 	}
+	private void verificarElementosIngresados(char tipeado, Object elementosActuales, KeyEvent e) { //  verifica que se ingrese correctamente los carecateres
+		JTextField CaracteresIngresados = (JTextField) elementosActuales;
+		if (esNumeroYteclasCorrectas(tipeado)) {
+			if (CaracteresIngresados.getText().length() == 1 && tipeado == '\n'  ) {
+				
+				e.consume(); // Evita que se ingresen más caracteres admite 1
+				CaracteresIngresados.transferFocus();
+
+			} else if (CaracteresIngresados.getText().length() == 2) {
+				
+				e.consume(); // Evita que se ingresen más caracteres admite 2
+				CaracteresIngresados.transferFocus();
+			}
+
+		} else {
+			JOptionPane.showMessageDialog(null, "Ingrese solo numeros!");
+			e.consume();
+			
+		}
+		
+	}
+
 
 	private void mostrarVidas() {
 
@@ -100,7 +123,7 @@ public class Presentacion {
 		this.cantColumnas = cantColumnas;
 	}
 
-	public int[][] transformarCajasAmatriz(JTextField[][] cajas) {
+	private int[][] transformarCajasAmatriz(JTextField[][] cajas) {
 		int[][] ret = new int[cajas.length][cajas.length];
 		for (int i = 0; i < cajas.length; i++) {
 			for (int j = 0; j < cajas.length; j++) {
@@ -112,7 +135,7 @@ public class Presentacion {
 
 	}
 
-	private JTextField textField;
+	
 
 	/**
 	 * Launch the application.
@@ -153,15 +176,15 @@ public class Presentacion {
 
 		switch (negocio.getDificultad()) {
 		case "Facil":
-			frame.setBounds(750, 100, 400, 400);
+			frame.setBounds(750, 300, 400, 400);
 			Calcular.setBounds(129, 325, 89, 23);
 			break;
 		case "Normal":
-			frame.setBounds(750, 100, 480, 500);
+			frame.setBounds(750, 300, 480, 500);
 			Calcular.setBounds(180, 430, 89, 23);
 			break;
 		case "Dificil":
-			frame.setBounds(750, 100, 580, 630);
+			frame.setBounds(750, 300, 580, 630);
 			Calcular.setBounds(250, 530, 89, 23);
 			break;
 		}
@@ -174,8 +197,6 @@ public class Presentacion {
 //		//vamos a hacer un array de labels para mostrar resultados de columnaas
 
 		SumTargetTop();
-
-//	
 //	//hagamos otro para mostrar resultados de filas
 
 		SumTargetSide();
@@ -193,47 +214,18 @@ public class Presentacion {
 				cajas[fila][col] = new JTextField();
 				cajas[fila][col].setBounds(posX, posY, 50, 50);
 				cajas[fila][col].setHorizontalAlignment(SwingConstants.CENTER);
-				// cajas[fila][col].setBackground(Color.RED);
-
 				frame.getContentPane().add(cajas[fila][col]);
 				posX += 50;
-				int filaaa = fila;
-				int columna = col;
-				// Evento en tipeado en cada caja, si introdusco cualquier carater hago focus en
-				// la siguiente caja.
-				cajas[fila][col].addKeyListener(new KeyAdapter() {
+				cajas[fila][col].addKeyListener(new KeyAdapter() {		
 					public void keyTyped(KeyEvent e) {
-
 						char tipeado = e.getKeyChar();
-						var elementoActual = e.getSource();
-						JTextField CaracteresIngresados = (JTextField) elementoActual;
-
-						if (esNumero(tipeado)) {
-							if (CaracteresIngresados.getText().length() == 1 && tipeado == '\n') {
-								e.consume(); // Evita que se ingresen más caracteres admite 1
-
-								CaracteresIngresados.transferFocus();
-							} else if (CaracteresIngresados.getText().length() == 2) {
-								e.consume(); // Evita que se ingresen más caracteres admite 2
-
-								CaracteresIngresados.transferFocus();
-							}
-
-						} else {
-							CaracteresIngresados.setText("");
-							System.out.println("poniendo valor vacio");
-							// JOptionPane.showMessageDialog(null,"Ingrese solo numeros por favor!" );
-							CaracteresIngresados.setText("");
-						}
-
+						var elementosActuales = e.getSource();
+						verificarElementosIngresados(tipeado,elementosActuales,e);			
 					}
-
 				});
-
 			}
 			posY += 50;
 		}
-
 //esto es solo para ver el resultado despues lo sacamos
 		negocio.mostrar();
 
@@ -242,12 +234,24 @@ public class Presentacion {
 		Calcular.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				negocio.agregarValoresMatriz(transformarCajasAmatriz(cajas)); // arreglar lo que recibe este
-																				// metodo(deberia recibir matriz de int)
+																			// metodo(deberia recibir matriz de int)
 				negocio.mostrarMatrizUsuario();
 
 				if (negocio.calculartodo()) {
-					JOptionPane.showMessageDialog(null, "Ganaste");
-					// OpcionParaGanaste();
+					JOptionPane.showMessageDialog(null,"Muy bien ganaste");
+					String [] arreglo= {"Jugar","Terminar"};
+					int opcionesReiniciar = JOptionPane.showOptionDialog(null,"¿Quieres volver a jugar?","Juegos Aritmeticos UNGS",0,JOptionPane.INFORMATION_MESSAGE,null,arreglo,null);
+					
+					switch (opcionesReiniciar){
+					case 0:
+						VentanaInicio nuevoJuego = new VentanaInicio();
+						nuevoJuego.visible();
+						frame.setVisible(false);
+						break;
+					case 1:
+						System. exit(0);
+						break;
+					}
 				}
 				mostrarVidas();
 				if (negocio.gameOver()) {

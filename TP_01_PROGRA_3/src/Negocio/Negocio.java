@@ -11,10 +11,14 @@ public class Negocio {
 	private int[][] matrizResuelta;
 	private int[] resultadoSumaFila;
 	private int[] resultadoSumaColumna;
+	private JTextField[][] matrizUsuariaPrueba;
 	private int vidas = 3;
 	private int cantFilas;
 	private int cantColumnas;
 	private String dificultad;
+	
+	
+	
 
 	public String getDificultad() { // se usan
 		return dificultad;
@@ -28,7 +32,7 @@ public class Negocio {
 		return cantColumnas;
 	}
 
-	private JTextField[][] matrizUsuariaPrueba;
+	
 
 	/****
 	 * Por defecto crea una matriz de 4x4 con nivel 1.

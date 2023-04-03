@@ -38,13 +38,17 @@ public class VentanaInicio {
 	public VentanaInicio() {
 		initialize();
 	}
+	public void visible() {
+		frame.setVisible(true);
+
+	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(750, 100, 450, 400);
+		frame.setBounds(750, 300, 450, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
