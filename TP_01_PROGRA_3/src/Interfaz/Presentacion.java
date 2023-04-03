@@ -238,20 +238,7 @@ public class Presentacion {
 				negocio.mostrarMatrizUsuario();
 
 				if (negocio.calculartodo()) {
-					JOptionPane.showMessageDialog(null,"Muy bien ganaste");
-					String [] arreglo= {"Jugar","Terminar"};
-					int opcionesReiniciar = JOptionPane.showOptionDialog(null,"¿Quieres volver a jugar?","Juegos Aritmeticos UNGS",0,JOptionPane.INFORMATION_MESSAGE,null,arreglo,null);
-					
-					switch (opcionesReiniciar){
-					case 0:
-						VentanaInicio nuevoJuego = new VentanaInicio();
-						nuevoJuego.visible();
-						frame.setVisible(false);
-						break;
-					case 1:
-						System. exit(0);
-						break;
-					}
+					cartelGanaste();
 				}
 				mostrarVidas();
 				if (negocio.gameOver()) {
@@ -264,6 +251,23 @@ public class Presentacion {
 				// TRUE--->"+negocio.calculartodo()+"<--");
 				// System.out.println("la matriz de usuario es");
 				// negocio.mostrarMatrizUsuario();
+			}
+
+			private void cartelGanaste() {
+				JOptionPane.showMessageDialog(null,"Muy bien ganaste");
+				String [] arreglo= {"Jugar","Terminar"};
+				int opcionesReiniciar = JOptionPane.showOptionDialog(null,"¿Quieres volver a jugar?","Juegos Aritmeticos UNGS",0,JOptionPane.INFORMATION_MESSAGE,null,arreglo,null);
+				
+				switch (opcionesReiniciar){
+				case 0:
+					VentanaInicio nuevoJuego = new VentanaInicio();
+					nuevoJuego.visible();
+					frame.setVisible(false);
+					break;
+				case 1:
+					System. exit(0);
+					break;
+				}
 			}
 		});
 		frame.getContentPane().add(Calcular);
