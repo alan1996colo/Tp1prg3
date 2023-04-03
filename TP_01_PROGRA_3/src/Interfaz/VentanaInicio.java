@@ -38,6 +38,7 @@ public class VentanaInicio {
 	public VentanaInicio() {
 		initialize();
 	}
+
 	public void visible() {
 		frame.setVisible(true);
 

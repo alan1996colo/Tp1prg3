@@ -11,7 +11,7 @@ public class Negocio {
 	private int[][] matrizResuelta;
 	private int[] resultadoSumaFila;
 	private int[] resultadoSumaColumna;
-	private JTextField[][] matrizUsuariaPrueba;
+	//private JTextField[][] matrizUsuariaPrueba;
 	private int vidas = 3;
 	private int cantFilas;
 	private int cantColumnas;
@@ -91,7 +91,7 @@ public class Negocio {
 	// public boolean ganaste() {
 
 //	}
-	private void PasarMatrizEntero() {
+/*	private void PasarMatrizEntero() {
 		int valor;
 		for (int i = 0; i < matrizUsuariaPrueba.length; i++) {
 			for (int j = 0; j < matrizUsuariaPrueba[i].length; j++) {
@@ -101,7 +101,7 @@ public class Negocio {
 
 		}
 	}
-
+*/
 	public int getTamano() {
 		return this.tamano;
 	}

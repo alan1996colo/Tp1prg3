@@ -30,7 +30,7 @@ public class Presentacion {
 	private int cantColumnas;
 	private Negocio negocio;
 	JLabel vidas = new JLabel("-");
-	private JTextField textField;
+	
 
 	public Presentacion(Negocio neg) {
 		this.negocio = neg;
@@ -38,27 +38,39 @@ public class Presentacion {
 
 	}
 
+	public boolean contains(JTextField cajas[][]) {
+		// a implementar
+
+		return false;
+
+	}
+
 	private boolean esNumeroYteclasCorrectas(char tipeado) {
 		int valor = Character.getNumericValue(tipeado);
-		if ((valor >= 0 && valor <= 9) || tipeado == '\n' || tipeado== '\u0008') {// modifique esta linea para que admita 10,20,30,40,etc
-															// numeros finalizados en cero
-			
+		if ((valor >= 0 && valor <= 9) || tipeado == '\n' || tipeado == '\u0008') {// modifique esta linea para que
+																					// admita 10,20,30,40,etc
+			// numeros finalizados en cero
+
 			return true;
 
 		}
-		
+
 		return false;
 	}
-	private void verificarElementosIngresados(char tipeado, Object elementosActuales, KeyEvent e) { //  verifica que se ingrese correctamente los carecateres
+
+	private void verificarElementosIngresados(char tipeado, Object elementosActuales, KeyEvent e) { // verifica que se
+																									// ingrese
+																									// correctamente los
+																									// carecateres
 		JTextField CaracteresIngresados = (JTextField) elementosActuales;
 		if (esNumeroYteclasCorrectas(tipeado)) {
-			if (CaracteresIngresados.getText().length() == 1 && tipeado == '\n'  ) {
-				
+			if (CaracteresIngresados.getText().length() == 1 && tipeado == '\n') {
+
 				e.consume(); // Evita que se ingresen más caracteres admite 1
 				CaracteresIngresados.transferFocus();
 
 			} else if (CaracteresIngresados.getText().length() == 2) {
-				
+
 				e.consume(); // Evita que se ingresen más caracteres admite 2
 				CaracteresIngresados.transferFocus();
 			}
@@ -66,11 +78,10 @@ public class Presentacion {
 		} else {
 			JOptionPane.showMessageDialog(null, "Ingrese solo numeros!");
 			e.consume();
-			
-		}
-		
-	}
 
+		}
+
+	}
 
 	private void mostrarVidas() {
 
@@ -127,15 +138,18 @@ public class Presentacion {
 		int[][] ret = new int[cajas.length][cajas.length];
 		for (int i = 0; i < cajas.length; i++) {
 			for (int j = 0; j < cajas.length; j++) {
-				ret[i][j] = Integer.parseInt(cajas[i][j].getText());
+				if (cajas[i][j].getText().equals("")) {
+					throw new IllegalArgumentException("las cajas estan vacias");
+
+				} else {
+					ret[i][j] = Integer.parseInt(cajas[i][j].getText());
+				}
 			}
 		}
 
 		return ret;
 
 	}
-
-	
 
 	/**
 	 * Launch the application.
@@ -216,11 +230,11 @@ public class Presentacion {
 				cajas[fila][col].setHorizontalAlignment(SwingConstants.CENTER);
 				frame.getContentPane().add(cajas[fila][col]);
 				posX += 50;
-				cajas[fila][col].addKeyListener(new KeyAdapter() {		
+				cajas[fila][col].addKeyListener(new KeyAdapter() {
 					public void keyTyped(KeyEvent e) {
 						char tipeado = e.getKeyChar();
 						var elementosActuales = e.getSource();
-						verificarElementosIngresados(tipeado,elementosActuales,e);			
+						verificarElementosIngresados(tipeado, elementosActuales, e);
 					}
 				});
 			}
@@ -232,40 +246,43 @@ public class Presentacion {
 		// sacar luego
 
 		Calcular.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
-				negocio.agregarValoresMatriz(transformarCajasAmatriz(cajas)); // arreglar lo que recibe este
-																			// metodo(deberia recibir matriz de int)
-				negocio.mostrarMatrizUsuario();
 
-				if (negocio.calculartodo()) {
-					cartelGanaste();
-				}
-				mostrarVidas();
-				if (negocio.gameOver()) {
-					JOptionPane.showMessageDialog(null, "Perdiste");
+				try {
+					negocio.agregarValoresMatriz(transformarCajasAmatriz(cajas));
+					negocio.mostrarMatrizUsuario();
+
+					if (negocio.calculartodo()) {
+						cartelGanaste();
+					}
+					mostrarVidas();
+					if (negocio.gameOver()) {
+						JOptionPane.showMessageDialog(null, "Perdiste");
+
+					}
+					}
+
+				catch (IllegalArgumentException f) {
+					JOptionPane.showMessageDialog(null, "Las cajas estan vacias !");
 
 				}
-				// System.out.println("Si perdiste muestra
-				// True-->"+negocio.gameOver()+"<---");// revisamos si perdemos.
-				// System.out.println("SI GANASTE MUESTRA
-				// TRUE--->"+negocio.calculartodo()+"<--");
-				// System.out.println("la matriz de usuario es");
-				// negocio.mostrarMatrizUsuario();
 			}
 
 			private void cartelGanaste() {
-				JOptionPane.showMessageDialog(null,"Muy bien ganaste");
-				String [] arreglo= {"Jugar","Terminar"};
-				int opcionesReiniciar = JOptionPane.showOptionDialog(null,"¿Quieres volver a jugar?","Juegos Aritmeticos UNGS",0,JOptionPane.INFORMATION_MESSAGE,null,arreglo,null);
-				
-				switch (opcionesReiniciar){
+				JOptionPane.showMessageDialog(null, "Muy bien ganaste");
+				String[] arreglo = { "Jugar", "Terminar" };
+				int opcionesReiniciar = JOptionPane.showOptionDialog(null, "¿Quieres volver a jugar?",
+						"Juegos Aritmeticos UNGS", 0, JOptionPane.INFORMATION_MESSAGE, null, arreglo, null);
+
+				switch (opcionesReiniciar) {
 				case 0:
 					VentanaInicio nuevoJuego = new VentanaInicio();
 					nuevoJuego.visible();
 					frame.setVisible(false);
 					break;
 				case 1:
-					System. exit(0);
+					System.exit(0);
 					break;
 				}
 			}
