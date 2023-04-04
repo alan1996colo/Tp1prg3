@@ -48,8 +48,8 @@ public class VentanaInicio {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(750, 300, 450, 400);
+		frame = new JFrame("Bienvenidos a los juegos del hambre");//borrar despues jaja
+		frame.setBounds(500, 200, 450, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 

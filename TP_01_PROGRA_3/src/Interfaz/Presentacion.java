@@ -86,7 +86,7 @@ public class Presentacion {
 	private void mostrarVidas() {
 
 		this.vidas.setText(String.valueOf(negocio.getVidas()));
-		this.vidas.setBounds(300, 5, 100, 33);
+		this.vidas.setBounds(frame.getWidth()-20, 5, 100, 33);
 		this.vidas.setForeground(Color.red);
 		frame.getContentPane().add(vidas);
 	}
@@ -109,7 +109,9 @@ public class Presentacion {
 			arrLabelDerecha[i] = new JLabel("--");
 			arrLabelDerecha[i].setText(String.valueOf(negocio.getResultadoSumaFila()[i]));
 
-			arrLabelDerecha[i].setBounds(300, 60 + (i * 50), 121, 33);
+			arrLabelDerecha[i].setBounds(frame.getWidth()-30
+					
+					, (60+i * 50), 121, 33);
 			frame.getContentPane().add(arrLabelDerecha[i]);
 		}
 	}
@@ -185,20 +187,20 @@ public class Presentacion {
 	private void initialize() {
 		System.out.println("Dificultad seleccionada:" + negocio.getDificultad());
 		JButton Calcular = new JButton("Calcular"); // lo coloco aca para poder modificar la posicion
-		frame = new JFrame();
+		frame = new JFrame("Juegos aritmeticos");
 		frame.setResizable(false); // indicamos que no manipule el usuario el tamaño de la ventana
 
 		switch (negocio.getDificultad()) {
 		case "Facil":
-			frame.setBounds(750, 300, 400, 400);
+			frame.setBounds(500, 200, 310, 400);
 			Calcular.setBounds(129, 325, 89, 23);
 			break;
 		case "Normal":
-			frame.setBounds(750, 300, 480, 500);
+			frame.setBounds(500, 200, 420, 500);
 			Calcular.setBounds(180, 430, 89, 23);
 			break;
 		case "Dificil":
-			frame.setBounds(750, 300, 580, 630);
+			frame.setBounds(500, 200, 520, 630);
 			Calcular.setBounds(250, 530, 89, 23);
 			break;
 		}
@@ -215,6 +217,7 @@ public class Presentacion {
 
 		SumTargetSide();
 		mostrarVidas();
+		//System.out.println(frame.getHeight());
 
 		JTextField[][] cajas = new JTextField[negocio.getCantFilas()][negocio.getCantColumnas()];// pedimos el tamaño a
 																									// la clase negocio,
