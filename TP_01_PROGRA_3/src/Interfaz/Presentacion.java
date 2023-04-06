@@ -195,14 +195,17 @@ public class Presentacion {
 		switch (negocio.getDificultad()) {
 		case "Facil":
 			frame.setBounds(500, 200, 310, 400);
+			frame.setLocationRelativeTo(null);
 			Calcular.setBounds(129, 325, 89, 23);
 			break;
 		case "Normal":
 			frame.setBounds(500, 200, 420, 500);
+			frame.setLocationRelativeTo(null);
 			Calcular.setBounds(180, 430, 89, 23);
 			break;
 		case "Dificil":
 			frame.setBounds(500, 200, 520, 630);
+			frame.setLocationRelativeTo(null);
 			Calcular.setBounds(250, 530, 89, 23);
 			break;
 		}
@@ -264,9 +267,15 @@ public class Presentacion {
 							arrLabelArriba[i].setForeground(Color.green);
 						}
 						cartelGanaste();
-					}else {
-					JOptionPane.showMessageDialog(null, "Perdiste una vida!, te quedan "+negocio.getVidas()+" vidas");
-					//codigo para colorear labels
+					}else if(negocio.getVidas()==0){
+						JOptionPane.showMessageDialog(null, "Ups perdiste! ");
+						OpcionesPerdiste();
+					} 
+					else {
+						JOptionPane.showMessageDialog(null, "Revisa los datos ingresados,Perdiste una vida!, te quedan "+negocio.getVidas());
+					}
+						
+										//codigo para colorear labels
 					for(int i=0;i<negocio.getTamano();i++) {
 						if(negocio.isCorrectaFila(i)) {
 							arrLabelDerecha[i].setForeground(Color.green);
@@ -286,33 +295,36 @@ public class Presentacion {
 					
 					
 					
-					}
+					
 					
 					
 					mostrarVidas();
-					if (negocio.gameOver()) {
-						JOptionPane.showMessageDialog(null, "Perdiste");
-						String[] arreglo = { "Jugar", "Terminar" };
-						int opcionesReiniciar = JOptionPane.showOptionDialog(null, "¿Quieres volver a jugar?",
-								"Juegos Aritmeticos UNGS", 0, JOptionPane.INFORMATION_MESSAGE, null, arreglo, null);
-
-						switch (opcionesReiniciar) {
-						case 0:
-							VentanaInicio nuevoJuego = new VentanaInicio();
-							nuevoJuego.visible();
-							frame.setVisible(false);
-							break;
-						case 1:
-							System.exit(0);
-							break;
-						}
-
-
-					}
+					
 					}
 
 				catch (IllegalArgumentException f) {
 					JOptionPane.showMessageDialog(null, "Las cajas estan vacias !");
+
+				}
+			}
+
+			private void OpcionesPerdiste() {
+				if (negocio.gameOver()) {
+					String[] arreglo = { "Jugar", "Terminar" };
+					int opcionesReiniciar = JOptionPane.showOptionDialog(null, "¿Quieres volver a jugar?",
+							"Juegos Aritmeticos UNGS", 0, JOptionPane.INFORMATION_MESSAGE, null, arreglo, null);
+
+					switch (opcionesReiniciar) {
+					case 0:
+						VentanaInicio nuevoJuego = new VentanaInicio();
+						nuevoJuego.visible();
+						frame.setVisible(false);
+						break;
+					case 1:
+						System.exit(0);
+						break;
+					}
+
 
 				}
 			}
