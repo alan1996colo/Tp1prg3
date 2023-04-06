@@ -1,8 +1,15 @@
 package Negocio;
 
 import java.util.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
 import javax.swing.JTextField;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Negocio {
 
@@ -17,24 +24,7 @@ public class Negocio {
 	private int cantColumnas;
 	private String dificultad;
 	
-	
-	
-
-	public String getDificultad() { // se usan
-		return dificultad;
-	}
-
-	public int getCantFilas() { // se usan
-		return cantFilas;
-	}
-
-	public int getCantColumnas() { // se usan
-		return cantColumnas;
-	}
-
-	
-
-	/****
+		/****
 	 * Por defecto crea una matriz de 4x4 con nivel 1.
 	 ***/
 	public Negocio() {
@@ -101,7 +91,27 @@ public class Negocio {
 
 		}
 	}
+	
+	
 */
+
+	
+
+	public String getDificultad() { // se usan
+		return dificultad;
+	}
+
+	public int getCantFilas() { // se usan
+		return cantFilas;
+	}
+
+	public int getCantColumnas() { // se usan
+		return cantColumnas;
+	}
+
+	
+
+
 	public int getTamano() {
 		return this.tamano;
 	}
@@ -130,6 +140,52 @@ public class Negocio {
 	public int[] getResultadosColumna() {
 		int[] copia = resultadoSumaColumna.clone();
 		return copia;
+	}
+	
+	
+	/****************
+	 * Revisa si la fila esta completada de forma correcta, True si, False no.
+	 * ******/
+	public boolean isCorrectaFila(int numFila) {
+		
+		
+		return sumarFila(numFila,this.matrizUsuario)==this.resultadoSumaFila[numFila];}
+	/****************
+	 * Revisa si la COlumna esta completada de forma correcta, True si, False no.
+	 * ******/
+	public boolean isCorrectaColumna(int numCol) {
+		
+		
+		return sumarColumna(numCol,this.matrizUsuario)==this.resultadoSumaColumna[numCol];}
+	
+	
+	
+	
+	
+	
+	public static void puntajes(String nombreUsuario) {
+		 try {
+	            String ruta = "src/Negocio/resultado.txt";
+	           
+	            DateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm:ss z");
+	            
+	            String date = dateFormat.format(new Date());
+	            File file = new File(ruta);
+	            // Si el archivo no existe es creado
+	            if (!file.exists()) {
+	                file.createNewFile();
+	            }
+	            FileWriter fw = new FileWriter(file,true);
+	            BufferedWriter bw = new BufferedWriter(fw);
+	            PrintWriter p = new PrintWriter(bw);
+	            p.println(nombreUsuario+" "+date);
+	            
+	            p.close();
+	            bw.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+		
 	}
 
 	/***

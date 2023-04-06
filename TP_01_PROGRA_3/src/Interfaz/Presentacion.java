@@ -30,6 +30,8 @@ public class Presentacion {
 	private int cantColumnas;
 	private Negocio negocio;
 	JLabel vidas = new JLabel("-");
+	private JLabel arrLabelArriba[];
+	private JLabel arrLabelDerecha[];
 	
 
 	public Presentacion(Negocio neg) {
@@ -86,13 +88,13 @@ public class Presentacion {
 	private void mostrarVidas() {
 
 		this.vidas.setText(String.valueOf(negocio.getVidas()));
-		this.vidas.setBounds(frame.getWidth()-20, 5, 100, 33);
-		this.vidas.setForeground(Color.red);
+		this.vidas.setBounds(frame.getWidth()-40, 5, 100, 33);
+		this.vidas.setForeground(Color.blue);
 		frame.getContentPane().add(vidas);
 	}
 
 	private void SumTargetTop() {
-		JLabel[] arrLabelArriba = new JLabel[negocio.getTamano()];
+		this.arrLabelArriba = new JLabel[negocio.getTamano()];
 		for (int i = 0; i < arrLabelArriba.length; i++) {
 			arrLabelArriba[i] = new JLabel("--");
 			arrLabelArriba[i].setText(String.valueOf(negocio.getResultadosColumna()[i]));
@@ -104,12 +106,12 @@ public class Presentacion {
 	}
 
 	private void SumTargetSide() {
-		JLabel[] arrLabelDerecha = new JLabel[negocio.getTamano()];
+		this.arrLabelDerecha = new JLabel[negocio.getTamano()];
 		for (int i = 0; i < arrLabelDerecha.length; i++) {
 			arrLabelDerecha[i] = new JLabel("--");
 			arrLabelDerecha[i].setText(String.valueOf(negocio.getResultadoSumaFila()[i]));
 
-			arrLabelDerecha[i].setBounds(frame.getWidth()-30
+			arrLabelDerecha[i].setBounds(frame.getWidth()-40
 					
 					, (60+i * 50), 121, 33);
 			frame.getContentPane().add(arrLabelDerecha[i]);
@@ -257,11 +259,54 @@ public class Presentacion {
 					negocio.mostrarMatrizUsuario();
 
 					if (negocio.calculartodo()) {
+						for(int i=0;i<negocio.getTamano();i++) {
+							arrLabelDerecha[i].setForeground(Color.green);
+							arrLabelArriba[i].setForeground(Color.green);
+						}
 						cartelGanaste();
+					}else {
+					JOptionPane.showMessageDialog(null, "Perdiste una vida!, te quedan "+negocio.getVidas()+" vidas");
+					//codigo para colorear labels
+					for(int i=0;i<negocio.getTamano();i++) {
+						if(negocio.isCorrectaFila(i)) {
+							arrLabelDerecha[i].setForeground(Color.green);
+						}
+						else {
+							arrLabelDerecha[i].setForeground(Color.red);
+						}
+						if(negocio.isCorrectaColumna(i)) {
+							arrLabelArriba[i].setForeground(Color.green);
+						}
+						else {arrLabelArriba[i].setForeground(Color.red);
+							
+						}
+						
 					}
+					
+					
+					
+					
+					}
+					
+					
 					mostrarVidas();
 					if (negocio.gameOver()) {
 						JOptionPane.showMessageDialog(null, "Perdiste");
+						String[] arreglo = { "Jugar", "Terminar" };
+						int opcionesReiniciar = JOptionPane.showOptionDialog(null, "¿Quieres volver a jugar?",
+								"Juegos Aritmeticos UNGS", 0, JOptionPane.INFORMATION_MESSAGE, null, arreglo, null);
+
+						switch (opcionesReiniciar) {
+						case 0:
+							VentanaInicio nuevoJuego = new VentanaInicio();
+							nuevoJuego.visible();
+							frame.setVisible(false);
+							break;
+						case 1:
+							System.exit(0);
+							break;
+						}
+
 
 					}
 					}
@@ -274,7 +319,7 @@ public class Presentacion {
 
 			private void cartelGanaste() {
 				JOptionPane.showMessageDialog(null, "Muy bien ganaste");
-				String[] arreglo = { "Jugar", "Terminar" };
+				String[] arreglo = { "Jugar", "Terminar","Guardar puntaje" };
 				int opcionesReiniciar = JOptionPane.showOptionDialog(null, "¿Quieres volver a jugar?",
 						"Juegos Aritmeticos UNGS", 0, JOptionPane.INFORMATION_MESSAGE, null, arreglo, null);
 
@@ -287,6 +332,22 @@ public class Presentacion {
 				case 1:
 					System.exit(0);
 					break;
+				case 2:
+					JFrame input=new JFrame("Ingrese su nombre");
+					JTextField name=new JTextField("ponga su nombre");
+					input.add(name);
+					input.setBounds(500, 200, 310, 400);
+					input.setVisible(true);
+					name.addKeyListener(new KeyAdapter() {
+						public void keyTyped(KeyEvent e) {
+							char tipeado = e.getKeyChar();
+							var elementosActuales = e.getSource();
+							//falta terminar de desarrollar los botones.
+						}
+					});
+					Negocio.puntajes(name.getText());
+					
+					
 				}
 			}
 		});
