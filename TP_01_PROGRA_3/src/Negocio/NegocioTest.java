@@ -29,7 +29,7 @@ public class NegocioTest {
 	@Test
 	public void EscribirTxtFUnciona() {
 		
-	Negocio.puntajes("alam");
+	neg.escribirPuntaje("alam");
 		
 	}
 	
