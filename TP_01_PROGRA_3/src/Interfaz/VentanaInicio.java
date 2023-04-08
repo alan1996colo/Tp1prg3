@@ -60,7 +60,7 @@ public class VentanaInicio {
 		JLabel lblNewLabel = new JLabel("Juegos Aritmeticos");
 		lblNewLabel.setForeground(new Color(0, 0, 0));
 		lblNewLabel.setFont(new Font("Dialog", Font.PLAIN, 44));
-		lblNewLabel.setBounds(21, -12, 402, 82);
+		lblNewLabel.setBounds(21, 11, 402, 82);
 		frame.getContentPane().add(lblNewLabel);
 
 		JButton btnFacil = new JButton("Facil");
@@ -118,7 +118,7 @@ public class VentanaInicio {
 
 		JLabel lblNewLabel_1 = new JLabel("Seleccione dificultad");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		lblNewLabel_1.setBounds(94, 144, 239, 40);
+		lblNewLabel_1.setBounds(108, 162, 239, 40);
 		frame.getContentPane().add(lblNewLabel_1);
 		
 		JLabel lblFondo = new JLabel("New label");
