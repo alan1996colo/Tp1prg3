@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 
 import javax.swing.JTextField;
 import java.text.DateFormat;
@@ -18,11 +19,11 @@ public class Negocio {
 	private int[][] matrizResuelta;
 	private int[] resultadoSumaFila;
 	private int[] resultadoSumaColumna;
-	//private JTextField[][] matrizUsuariaPrueba;
 	private int vidas = 3;
 	private int cantFilas;
 	private int cantColumnas;
 	private String dificultad;
+	private Date horaInicio;
 	
 		/****
 	 * Por defecto crea una matriz de 4x4 con nivel 1.
@@ -34,6 +35,7 @@ public class Negocio {
 		this.resultadoSumaColumna = new int[tamano];
 		this.resultadoSumaFila = new int[tamano];
 		calcularResultadoMatrizCreadaFilaColumna();
+		this.horaInicio=new Date();
 	}
 
 	/****
@@ -49,6 +51,7 @@ public class Negocio {
 		this.resultadoSumaColumna = new int[tamano];
 		this.resultadoSumaFila = new int[tamano];
 		calcularResultadoMatrizCreadaFilaColumna();
+		this.horaInicio=new Date();
 	}
 
 	/***
@@ -68,33 +71,8 @@ public class Negocio {
 		this.resultadoSumaColumna = new int[tamano];
 		this.resultadoSumaFila = new int[tamano];
 		calcularResultadoMatrizCreadaFilaColumna();
+		this.horaInicio=new Date();
 	}
-	// ESTO NO ESTA BIEN, DEJA DE USAR ESTE METODO PORQUE NOS DESAPRUEBAN EL TP, LA
-	// CAPA DE NEGOCIO NO DEBE CONOCER A LA CAPA DE PRESENTACION
-	// SUGERENCIA: MIRA EL METODO agregarValoresMatriz(int[][]);
-	/*
-	 * public void AgregarDatosMatriz(JTextField[][] cajas) { //cambiar a recibir
-	 * matriz de enteros., calcular todo directamente.
-	 * this.matrizUsuariaPrueba=cajas; PasarMatrizEntero(); }
-	 */
-
-	// public boolean ganaste() {
-
-//	}
-/*	private void PasarMatrizEntero() {
-		int valor;
-		for (int i = 0; i < matrizUsuariaPrueba.length; i++) {
-			for (int j = 0; j < matrizUsuariaPrueba[i].length; j++) {
-				valor = Integer.parseInt(matrizUsuariaPrueba[i][j].getText());
-				matrizUsuario[i][j] = valor;
-			}
-
-		}
-	}
-	
-	
-*/
-
 	
 
 	public String getDificultad() { // se usan
@@ -163,14 +141,20 @@ public class Negocio {
 	
 	
 	
-	public static void puntajes(String nombreUsuario) {
+	public  void escribirPuntaje(String nombreUsuario) {
 		 try {
 	            String ruta = "src/Negocio/resultado.txt";
 	           
 	            DateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm:ss z");
 	            
-	            String date = dateFormat.format(new Date());
+	           // String dateIni = dateFormat.format(this.horaInicio);
+	            Date horafin=new Date();
+	            String dateFin= dateFormat.format(horafin);
+	            BigDecimal difierenciaMilis=new BigDecimal(horafin.getTime()-horaInicio.getTime());
+	            BigDecimal conPunto=new BigDecimal(1000);
+	            conPunto= difierenciaMilis.divide(conPunto);
 	            File file = new File(ruta);
+	            
 	            // Si el archivo no existe es creado
 	            if (!file.exists()) {
 	                file.createNewFile();
@@ -178,7 +162,7 @@ public class Negocio {
 	            FileWriter fw = new FileWriter(file,true);
 	            BufferedWriter bw = new BufferedWriter(fw);
 	            PrintWriter p = new PrintWriter(bw);
-	            p.println(nombreUsuario+" "+date);
+	            p.println(nombreUsuario+" Tardo:"+conPunto+"segundos, el dia "+dateFin);
 	            
 	            p.close();
 	            bw.close();

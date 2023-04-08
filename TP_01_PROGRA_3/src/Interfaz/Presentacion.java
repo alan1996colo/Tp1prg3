@@ -345,21 +345,12 @@ public class Presentacion {
 					System.exit(0);
 					break;
 				case 2:
-					JFrame input=new JFrame("Ingrese su nombre");
-					JTextField name=new JTextField("ponga su nombre");
-					input.add(name);
-					input.setBounds(500, 200, 310, 400);
-					input.setVisible(true);
-					name.addKeyListener(new KeyAdapter() {
-						public void keyTyped(KeyEvent e) {
-							char tipeado = e.getKeyChar();
-							var elementosActuales = e.getSource();
-							//falta terminar de desarrollar los botones.
-						}
-					});
-					Negocio.puntajes(name.getText());
-					
-					
+					String m = JOptionPane.showInputDialog("Ingrese su nombre");
+					negocio.escribirPuntaje(m);
+					VentanaInicio nuevoJuego2 = new VentanaInicio();
+					nuevoJuego2.visible();
+					frame.setVisible(false);
+					break;
 				}
 			}
 		});
