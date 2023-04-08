@@ -22,6 +22,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
 import java.awt.Color;
+import javax.swing.ImageIcon;
 
 public class Presentacion {
 
@@ -29,7 +30,8 @@ public class Presentacion {
 	private int cantFilas;
 	private int cantColumnas;
 	private Negocio negocio;
-	JLabel vidas = new JLabel("-");
+	JLabel vidas = new JLabel("Vidas");
+	JLabel lblVidas = new JLabel("3");
 	private JLabel arrLabelArriba[];
 	private JLabel arrLabelDerecha[];
 	
@@ -84,14 +86,21 @@ public class Presentacion {
 		}
 
 	}
+	
 
-	private void mostrarVidas() {
-
-		this.vidas.setText(String.valueOf(negocio.getVidas()));
-		this.vidas.setBounds(frame.getWidth()-40, 5, 100, 33);
-		this.vidas.setForeground(Color.blue);
-		frame.getContentPane().add(vidas);
-	}
+	
+		
+//				this.vidas.setText(String.valueOf(negocio.getVidas()));
+//				this.vidas.setBounds(39, 0, 33, 33);
+//				this.vidas.setForeground(Color.green);
+//				frame.getContentPane().add(vidas);
+//				System.out.println(negocio.getVidas());
+//		
+////		JLabel lblCorazon = new JLabel("New label");
+////		lblCorazon.setIcon(new ImageIcon("src\\Imagenes\\corazon pequeño.png"));
+////		lblCorazon.setBounds(0, 2, 33, 33);
+////		frame.getContentPane().add(lblCorazon);
+	
 
 	private void SumTargetTop() {
 		this.arrLabelArriba = new JLabel[negocio.getTamano()];
@@ -99,7 +108,7 @@ public class Presentacion {
 			arrLabelArriba[i] = new JLabel("--");
 			arrLabelArriba[i].setText(String.valueOf(negocio.getResultadosColumna()[i]));
 
-			arrLabelArriba[i].setBounds(70 + (i * 50), 12, 121, 33);
+			arrLabelArriba[i].setBounds(70 + (i * 50), 252, 121, 33);
 			frame.getContentPane().add(arrLabelArriba[i]);
 		}
 
@@ -113,7 +122,7 @@ public class Presentacion {
 
 			arrLabelDerecha[i].setBounds(frame.getWidth()-40
 					
-					, (60+i * 50), 121, 33);
+					, (60+i * 50), 115, 33);
 			frame.getContentPane().add(arrLabelDerecha[i]);
 		}
 	}
@@ -194,7 +203,7 @@ public class Presentacion {
 
 		switch (negocio.getDificultad()) {
 		case "Facil":
-			frame.setBounds(500, 200, 310, 400);
+			frame.setBounds(500, 200, 320, 400);
 			frame.setLocationRelativeTo(null);
 			Calcular.setBounds(129, 325, 89, 23);
 			break;
@@ -221,7 +230,8 @@ public class Presentacion {
 //	//hagamos otro para mostrar resultados de filas
 
 		SumTargetSide();
-		mostrarVidas();
+		
+		
 		//System.out.println(frame.getHeight());
 
 		JTextField[][] cajas = new JTextField[negocio.getCantFilas()][negocio.getCantColumnas()];// pedimos el tamaño a
@@ -248,6 +258,7 @@ public class Presentacion {
 			}
 			posY += 50;
 		}
+		
 //esto es solo para ver el resultado despues lo sacamos
 		negocio.mostrar();
 
@@ -256,7 +267,10 @@ public class Presentacion {
 		Calcular.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-
+				
+				System.out.println(negocio.getVidas());
+				lblVidas.setText(String.valueOf(negocio.getVidas()));
+				
 				try {
 					negocio.agregarValoresMatriz(transformarCajasAmatriz(cajas));
 					negocio.mostrarMatrizUsuario();
@@ -293,14 +307,8 @@ public class Presentacion {
 					}
 					
 					
-					
-					
-					
-					
-					
-					mostrarVidas();
-					
 					}
+				
 
 				catch (IllegalArgumentException f) {
 					JOptionPane.showMessageDialog(null, "Las cajas estan vacias !");
@@ -354,7 +362,19 @@ public class Presentacion {
 				}
 			}
 		});
+		
+		
+		System.out.println(negocio.getVidas());
+		lblVidas.setBounds(57, 11, 46, 28);
+		frame.getContentPane().add(lblVidas);
 		frame.getContentPane().add(Calcular);
+		
+		JLabel lblFondo = new JLabel("New label");
+		lblFondo.setIcon(new ImageIcon("src\\Imagenes\\fondo.jpg"));
+		lblFondo.setBounds(0, 0, 434, 256);
+		frame.getContentPane().add(lblFondo);
+		
+		vidas.setFont(new Font("Tahoma", Font.BOLD, 16));
 
 	}
 }

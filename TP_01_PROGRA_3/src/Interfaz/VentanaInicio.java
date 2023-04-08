@@ -121,8 +121,8 @@ public class VentanaInicio {
 		lblNewLabel_1.setBounds(108, 162, 239, 40);
 		frame.getContentPane().add(lblNewLabel_1);
 		
-		JLabel lblFondo = new JLabel("New label");//fijate como cargo el archivo en la capa negocio
-		lblFondo.setIcon(new ImageIcon("C:\\Users\\herna\\eclipse-workspace\\TP01_PROGRA_3\\Imagenes\\fondo.jpg"));
+		JLabel lblFondo =  new JLabel("New label");//fijate como cargo el archivo en la capa negocio
+		lblFondo.setIcon(new ImageIcon("src\\Imagenes\\fondo.jpg"));
 		lblFondo.setBounds(-14, -20, 731, 517);
 		frame.getContentPane().add(lblFondo);
 	}
