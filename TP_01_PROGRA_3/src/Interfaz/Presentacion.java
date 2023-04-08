@@ -34,6 +34,8 @@ public class Presentacion {
 	JLabel lblVidas = new JLabel("3");
 	private JLabel arrLabelArriba[];
 	private JLabel arrLabelDerecha[];
+	private JButton prenderApagarMusica;
+	private Sonido sound;
 	
 
 	public Presentacion(Negocio neg) {
@@ -42,6 +44,26 @@ public class Presentacion {
 
 	}
 
+	private void crearBtnMusica() {
+		prenderApagarMusica = new JButton("mute");
+		prenderApagarMusica.setBackground(new Color(51, 165, 33));
+		prenderApagarMusica.setFont(new Font("Tahoma", Font.BOLD, 8));
+		prenderApagarMusica.setForeground(new Color(255, 255, 255));
+		prenderApagarMusica.setBounds(frame.getWidth()-60, 5, 60, 32);
+		prenderApagarMusica.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				if(sound.getStatus().equals("play")) {
+			sound.pause();}
+				else {
+					sound.play();
+				}
+			}
+		});
+		
+		frame.getContentPane().add(prenderApagarMusica);
+	}
+	
 	public boolean contains(JTextField cajas[][]) {
 		// a implementar
 
@@ -108,7 +130,7 @@ public class Presentacion {
 			arrLabelArriba[i] = new JLabel("--");
 			arrLabelArriba[i].setText(String.valueOf(negocio.getResultadosColumna()[i]));
 
-			arrLabelArriba[i].setBounds(70 + (i * 50), 252, 121, 33);
+			arrLabelArriba[i].setBounds(70 + (i * 50), 20, 121, 33);
 			frame.getContentPane().add(arrLabelArriba[i]);
 		}
 
@@ -196,6 +218,17 @@ public class Presentacion {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		try
+        {
+			this.sound=new Sonido();
+			sound.play();}
+		 	catch (Exception ex) 
+        {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
+          
+          }
+		
 		System.out.println("Dificultad seleccionada:" + negocio.getDificultad());
 		JButton Calcular = new JButton("Calcular"); // lo coloco aca para poder modificar la posicion
 		frame = new JFrame("Juegos aritmeticos");
@@ -218,7 +251,7 @@ public class Presentacion {
 			Calcular.setBounds(250, 530, 89, 23);
 			break;
 		}
-
+		crearBtnMusica();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -318,6 +351,7 @@ public class Presentacion {
 
 			private void OpcionesPerdiste() {
 				if (negocio.gameOver()) {
+					sound.pause();
 					String[] arreglo = { "Jugar", "Terminar" };
 					int opcionesReiniciar = JOptionPane.showOptionDialog(null, "¿Quieres volver a jugar?",
 							"Juegos Aritmeticos UNGS", 0, JOptionPane.INFORMATION_MESSAGE, null, arreglo, null);
@@ -339,6 +373,7 @@ public class Presentacion {
 
 			private void cartelGanaste() {
 				JOptionPane.showMessageDialog(null, "Muy bien ganaste");
+				sound.pause();
 				String[] arreglo = { "Jugar", "Terminar","Guardar puntaje" };
 				int opcionesReiniciar = JOptionPane.showOptionDialog(null, "¿Quieres volver a jugar?",
 						"Juegos Aritmeticos UNGS", 0, JOptionPane.INFORMATION_MESSAGE, null, arreglo, null);
@@ -370,7 +405,7 @@ public class Presentacion {
 		frame.getContentPane().add(Calcular);
 		
 		JLabel lblFondo = new JLabel("New label");
-		lblFondo.setIcon(new ImageIcon("src\\Imagenes\\fondo.jpg"));
+		lblFondo.setIcon(new ImageIcon("Imagenes/fondo.jpg"));
 		lblFondo.setBounds(0, 0, 434, 256);
 		frame.getContentPane().add(lblFondo);
 		

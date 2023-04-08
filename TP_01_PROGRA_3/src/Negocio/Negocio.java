@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import javax.swing.JTextField;
 import java.text.DateFormat;
@@ -120,6 +121,11 @@ public class Negocio {
 		return copia;
 	}
 	
+	private BigDecimal calcularPuntaje(BigDecimal tiempo) {
+		
+		BigDecimal puntos=new BigDecimal(1000*this.getVidas());
+		return puntos.divide(tiempo,2,RoundingMode.HALF_UP);
+	}
 	
 	/****************
 	 * Revisa si la fila esta completada de forma correcta, True si, False no.
@@ -143,7 +149,7 @@ public class Negocio {
 	
 	public  void escribirPuntaje(String nombreUsuario) {
 		 try {
-	            String ruta = "src/Negocio/resultado.txt";
+	            String ruta = "Negocio/resultado.txt";
 	           
 	            DateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm:ss z");
 	            
@@ -162,7 +168,7 @@ public class Negocio {
 	            FileWriter fw = new FileWriter(file,true);
 	            BufferedWriter bw = new BufferedWriter(fw);
 	            PrintWriter p = new PrintWriter(bw);
-	            p.println(nombreUsuario+"  Puntos=["+"] Tiempo:("+conPunto+") segundos, el dia {"+dateFin+"}");
+	            p.println(nombreUsuario+"  Puntos=["+calcularPuntaje(conPunto)+"] Vidas: "+this.getVidas()+" Tiempo:("+conPunto+") segundos, el dia {"+dateFin+"}");
 	            
 	            p.close();
 	            bw.close();
