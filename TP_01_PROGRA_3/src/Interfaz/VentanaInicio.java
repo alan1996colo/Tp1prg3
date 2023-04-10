@@ -78,7 +78,7 @@ public class VentanaInicio {
 		JButton btnFacil = new JButton("Facil");
 		btnFacil.setBackground(new Color(51, 255, 102));
 		btnFacil.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnFacil.setForeground(new Color(0, 0, 0));
+	
 
 		btnFacil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -148,8 +148,8 @@ public class VentanaInicio {
 		lblNewLabel_1.setBounds(108, 162, 239, 40);
 		frame.getContentPane().add(lblNewLabel_1);
 		
-		JLabel lblFondo =  new JLabel("New label");//De esto se ve que vamos a estar pelando por el path jaja
-		lblFondo.setIcon(new ImageIcon("Imagenes/fondo.jpg"));
+		JLabel lblFondo =  new JLabel("FondoInicio");//De esto se ve que vamos a estar pelando por el path jaja
+		lblFondo.setIcon(new ImageIcon("src\\Imagenes\\fondo.jpg"));
 		lblFondo.setBounds(-14, -20, 731, 517);
 		frame.getContentPane().add(lblFondo);
 		

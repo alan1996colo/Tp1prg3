@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
 import java.awt.Color;
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 public class Presentacion {
 
@@ -30,7 +31,6 @@ public class Presentacion {
 	private int cantFilas;
 	private int cantColumnas;
 	private Negocio negocio;
-	JLabel vidas = new JLabel("Vidas");
 	JLabel lblVidas = new JLabel("3");
 	private JLabel arrLabelArriba[];
 	private JLabel arrLabelDerecha[];
@@ -43,13 +43,29 @@ public class Presentacion {
 		initialize();
 
 	}
-
-	private void crearBtnMusica() {
-		prenderApagarMusica = new JButton("mute");
+	
+	private void crearBtnMusica(String nivel) {
+		prenderApagarMusica = new JButton("Mute");
 		prenderApagarMusica.setBackground(new Color(51, 165, 33));
-		prenderApagarMusica.setFont(new Font("Tahoma", Font.BOLD, 8));
+		prenderApagarMusica.setFont(new Font("Tahoma", Font.BOLD, 10));
 		prenderApagarMusica.setForeground(new Color(255, 255, 255));
-		prenderApagarMusica.setBounds(frame.getWidth()-60, 5, 60, 32);
+		switch (nivel) {
+		case "Facil":{
+			prenderApagarMusica.setBounds(266, 5, 60, 32);
+			break;
+			
+		}
+		case "Normal":{
+			prenderApagarMusica.setBounds(368, 5, 60, 32);
+			break;
+		}
+		
+		case "Dificil":{
+			prenderApagarMusica.setBounds(468, 5, 60, 32);
+			break;
+		}
+				
+		}
 		prenderApagarMusica.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -60,16 +76,10 @@ public class Presentacion {
 				}
 			}
 		});
-		
+		frame.getContentPane().setLayout(null);
 		frame.getContentPane().add(prenderApagarMusica);
 	}
 	
-	public boolean contains(JTextField cajas[][]) {
-		// a implementar
-
-		return false;
-
-	}
 
 	private boolean esNumeroYteclasCorrectas(char tipeado) {
 		int valor = Character.getNumericValue(tipeado);
@@ -83,6 +93,7 @@ public class Presentacion {
 
 		return false;
 	}
+
 
 	private void verificarElementosIngresados(char tipeado, Object elementosActuales, KeyEvent e) { // verifica que se
 																									// ingrese
@@ -108,66 +119,75 @@ public class Presentacion {
 		}
 
 	}
-	
-
-	
-		
-//				this.vidas.setText(String.valueOf(negocio.getVidas()));
-//				this.vidas.setBounds(39, 0, 33, 33);
-//				this.vidas.setForeground(Color.green);
-//				frame.getContentPane().add(vidas);
-//				System.out.println(negocio.getVidas());
-//		
-////		JLabel lblCorazon = new JLabel("New label");
-////		lblCorazon.setIcon(new ImageIcon("src\\Imagenes\\corazon pequeño.png"));
-////		lblCorazon.setBounds(0, 2, 33, 33);
-////		frame.getContentPane().add(lblCorazon);
-	
-
 	private void SumTargetTop() {
 		this.arrLabelArriba = new JLabel[negocio.getTamano()];
 		for (int i = 0; i < arrLabelArriba.length; i++) {
 			arrLabelArriba[i] = new JLabel("--");
 			arrLabelArriba[i].setText(String.valueOf(negocio.getResultadosColumna()[i]));
-
+			arrLabelArriba[i].setFont(new Font("Tahoma", Font.BOLD, 16));
 			arrLabelArriba[i].setBounds(70 + (i * 50), 20, 121, 33);
 			frame.getContentPane().add(arrLabelArriba[i]);
 		}
 
 	}
-
 	private void SumTargetSide() {
 		this.arrLabelDerecha = new JLabel[negocio.getTamano()];
 		for (int i = 0; i < arrLabelDerecha.length; i++) {
 			arrLabelDerecha[i] = new JLabel("--");
+			arrLabelDerecha[i].setFont(new Font("Tahoma", Font.BOLD, 16));
 			arrLabelDerecha[i].setText(String.valueOf(negocio.getResultadoSumaFila()[i]));
-
-			arrLabelDerecha[i].setBounds(frame.getWidth()-40
-					
-					, (60+i * 50), 115, 33);
+			
+				arrLabelDerecha[i].setBounds(frame.getWidth()-70, (58+i * 50), 150, 50);
 			frame.getContentPane().add(arrLabelDerecha[i]);
 		}
 	}
+	private void OpcionesPerdiste() {
+		if (negocio.gameOver()) {
+			sound.pause();
+			String[] arreglo = { "Jugar", "Terminar" };
+			int opcionesReiniciar = JOptionPane.showOptionDialog(null, "¿Quieres volver a jugar?",
+					"Juegos Aritmeticos UNGS", 0, JOptionPane.INFORMATION_MESSAGE, null, arreglo, null);
 
-	public int getCantFilas() {
-		return cantFilas;
+			switch (opcionesReiniciar) {
+			case 0:
+				VentanaInicio nuevoJuego = new VentanaInicio();
+				nuevoJuego.visible();
+				frame.setVisible(false);
+				break;
+			case 1:
+				System.exit(0);
+				break;
+			}
+
+
+		}
+	}
+	private void cartelGanaste() {
+		JOptionPane.showMessageDialog(null, "Muy bien ganaste");
+		sound.pause();
+		String[] arreglo = { "Jugar", "Terminar","Guardar puntaje" };
+		int opcionesReiniciar = JOptionPane.showOptionDialog(null, "¿Quieres volver a jugar?",
+				"Juegos Aritmeticos UNGS", 0, JOptionPane.INFORMATION_MESSAGE, null, arreglo, null);
+
+		switch (opcionesReiniciar) {
+		case 0:
+			VentanaInicio nuevoJuego = new VentanaInicio();
+			nuevoJuego.visible();
+			frame.setVisible(false);
+			break;
+		case 1:
+			System.exit(0);
+			break;
+		case 2:
+			String m = JOptionPane.showInputDialog("Ingrese su nombre");
+			negocio.escribirPuntaje(m);
+			VentanaInicio nuevoJuego2 = new VentanaInicio();
+			nuevoJuego2.visible();
+			frame.setVisible(false);
+			break;
+		}
 	}
 
-	public void setNegocio(Negocio neg) {
-		this.negocio = neg;
-	}
-
-	public void setCantFilas(int cantFilas) {
-		this.cantFilas = cantFilas;
-	}
-
-	public int getCantColumnas() {
-		return cantColumnas;
-	}
-
-	public void setCantColumnas(int cantColumnas) {
-		this.cantColumnas = cantColumnas;
-	}
 
 	private int[][] transformarCajasAmatriz(JTextField[][] cajas) {
 		int[][] ret = new int[cajas.length][cajas.length];
@@ -185,10 +205,24 @@ public class Presentacion {
 		return ret;
 
 	}
+	private void colorear_Top_Side() {
+		for(int i=0;i<negocio.getTamano();i++) {
+			if(negocio.isCorrectaFila(i)) {
+				arrLabelDerecha[i].setForeground(Color.green);
+			}
+			else {
+				arrLabelDerecha[i].setForeground(Color.red);
+			}
+			if(negocio.isCorrectaColumna(i)) {
+				arrLabelArriba[i].setForeground(Color.green);
+			}
+			else {arrLabelArriba[i].setForeground(Color.red);
+				
+			}
 
-	/**
-	 * Launch the application.
-	 */
+		}
+	}
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -202,9 +236,7 @@ public class Presentacion {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
+	
 	public Presentacion() {
 		initialize();
 	}
@@ -214,9 +246,7 @@ public class Presentacion {
 
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
+
 	private void initialize() {
 		try
         {
@@ -230,55 +260,58 @@ public class Presentacion {
           }
 		
 		System.out.println("Dificultad seleccionada:" + negocio.getDificultad());
+		
+		
 		JButton Calcular = new JButton("Calcular"); // lo coloco aca para poder modificar la posicion
+		Calcular.setBackground(new Color(255, 140, 0));
+		Calcular.setFont(new Font("Tahoma", Font.BOLD, 16));
+		
+		
+		
 		frame = new JFrame("Juegos aritmeticos");
 		frame.setResizable(false); // indicamos que no manipule el usuario el tamaño de la ventana
 
 		switch (negocio.getDificultad()) {
 		case "Facil":
-			frame.setBounds(500, 200, 320, 400);
+			frame.setBounds(500, 200, 350, 350);
 			frame.setLocationRelativeTo(null);
-			Calcular.setBounds(129, 325, 89, 23);
+			Calcular.setBounds(110, 265, 102, 32);
+			crearBtnMusica("Facil");
 			break;
 		case "Normal":
-			frame.setBounds(500, 200, 420, 500);
+			frame.setBounds(500, 200, 450, 450);
 			frame.setLocationRelativeTo(null);
-			Calcular.setBounds(180, 430, 89, 23);
+			Calcular.setBounds(160, 370, 102, 32);
+			crearBtnMusica("Normal");	
 			break;
 		case "Dificil":
-			frame.setBounds(500, 200, 520, 630);
+			frame.setBounds(500, 200, 548, 570);
 			frame.setLocationRelativeTo(null);
-			Calcular.setBounds(250, 530, 89, 23);
+			Calcular.setBounds(200, 480, 102, 32);
+			crearBtnMusica("Dificil");
 			break;
 		}
-		crearBtnMusica();
+		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-
-//		//vamos a hacer un array de labels para mostrar resultados de columnaas
-
+		frame.getContentPane().add(Calcular);
+		
 		SumTargetTop();
-//	//hagamos otro para mostrar resultados de filas
-
 		SumTargetSide();
-		
-		
-		//System.out.println(frame.getHeight());
 
-		JTextField[][] cajas = new JTextField[negocio.getCantFilas()][negocio.getCantColumnas()];// pedimos el tamaño a
-																									// la clase negocio,
-																									// mucho mejor.
+		
+		JTextField[][] cajas = new JTextField[negocio.getCantFilas()][negocio.getCantColumnas()];																
 		System.out.println("Matriz :" + negocio.getCantFilas() + "x" + negocio.getCantFilas());
 		int posY = 55;
-
 		for (int fila = 0; fila < cajas.length; fila++) {
 			int posX = 60;
 			for (int col = 0; col < cajas[0].length; col++) {
 				cajas[fila][col] = new JTextField();
 				cajas[fila][col].setBounds(posX, posY, 50, 50);
 				cajas[fila][col].setHorizontalAlignment(SwingConstants.CENTER);
+				cajas[fila][col].setFont(new Font("Tahoma", Font.BOLD, 16));
+				cajas[fila][col].setBackground(new Color(169, 169, 169));
 				frame.getContentPane().add(cajas[fila][col]);
 				posX += 50;
 				cajas[fila][col].addKeyListener(new KeyAdapter() {
@@ -292,22 +325,12 @@ public class Presentacion {
 			posY += 50;
 		}
 		
-//esto es solo para ver el resultado despues lo sacamos
-		negocio.mostrar();
-
-		// sacar luego
-
+		negocio.mostrar();	 // muestra la matriz resuelta
 		Calcular.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
-				
-				System.out.println(negocio.getVidas());
-				lblVidas.setText(String.valueOf(negocio.getVidas()));
-				
-				try {
+				try {	
 					negocio.agregarValoresMatriz(transformarCajasAmatriz(cajas));
 					negocio.mostrarMatrizUsuario();
-
 					if (negocio.calculartodo()) {
 						for(int i=0;i<negocio.getTamano();i++) {
 							arrLabelDerecha[i].setForeground(Color.green);
@@ -316,100 +339,45 @@ public class Presentacion {
 						cartelGanaste();
 					}else if(negocio.getVidas()==0){
 						JOptionPane.showMessageDialog(null, "Ups perdiste! ");
+						lblVidas.setText(String.valueOf(negocio.getVidas()));
 						OpcionesPerdiste();
 					} 
 					else {
 						JOptionPane.showMessageDialog(null, "Revisa los datos ingresados,Perdiste una vida!, te quedan "+negocio.getVidas());
 					}
-						
-										//codigo para colorear labels
-					for(int i=0;i<negocio.getTamano();i++) {
-						if(negocio.isCorrectaFila(i)) {
-							arrLabelDerecha[i].setForeground(Color.green);
-						}
-						else {
-							arrLabelDerecha[i].setForeground(Color.red);
-						}
-						if(negocio.isCorrectaColumna(i)) {
-							arrLabelArriba[i].setForeground(Color.green);
-						}
-						else {arrLabelArriba[i].setForeground(Color.red);
-							
-						}
-						
+					lblVidas.setText(String.valueOf(negocio.getVidas()));
+					colorear_Top_Side();
 					}
-					
-					
-					}
-				
-
 				catch (IllegalArgumentException f) {
 					JOptionPane.showMessageDialog(null, "Las cajas estan vacias !");
-
-				}
-			}
-
-			private void OpcionesPerdiste() {
-				if (negocio.gameOver()) {
-					sound.pause();
-					String[] arreglo = { "Jugar", "Terminar" };
-					int opcionesReiniciar = JOptionPane.showOptionDialog(null, "¿Quieres volver a jugar?",
-							"Juegos Aritmeticos UNGS", 0, JOptionPane.INFORMATION_MESSAGE, null, arreglo, null);
-
-					switch (opcionesReiniciar) {
-					case 0:
-						VentanaInicio nuevoJuego = new VentanaInicio();
-						nuevoJuego.visible();
-						frame.setVisible(false);
-						break;
-					case 1:
-						System.exit(0);
-						break;
-					}
-
-
-				}
-			}
-
-			private void cartelGanaste() {
-				JOptionPane.showMessageDialog(null, "Muy bien ganaste");
-				sound.pause();
-				String[] arreglo = { "Jugar", "Terminar","Guardar puntaje" };
-				int opcionesReiniciar = JOptionPane.showOptionDialog(null, "¿Quieres volver a jugar?",
-						"Juegos Aritmeticos UNGS", 0, JOptionPane.INFORMATION_MESSAGE, null, arreglo, null);
-
-				switch (opcionesReiniciar) {
-				case 0:
-					VentanaInicio nuevoJuego = new VentanaInicio();
-					nuevoJuego.visible();
-					frame.setVisible(false);
-					break;
-				case 1:
-					System.exit(0);
-					break;
-				case 2:
-					String m = JOptionPane.showInputDialog("Ingrese su nombre");
-					negocio.escribirPuntaje(m);
-					VentanaInicio nuevoJuego2 = new VentanaInicio();
-					nuevoJuego2.visible();
-					frame.setVisible(false);
-					break;
 				}
 			}
 		});
 		
 		
-		System.out.println(negocio.getVidas());
-		lblVidas.setBounds(57, 11, 46, 28);
-		frame.getContentPane().add(lblVidas);
-		frame.getContentPane().add(Calcular);
+		JLabel lblNewLabel = new JLabel("CorazonPequeño");
+		lblNewLabel.setBounds(0, 4, 36, 32);
+		lblNewLabel.setIcon(new ImageIcon("src\\Imagenes\\corazon pequeño.png"));
+		frame.getContentPane().add(lblNewLabel);
 		
-		JLabel lblFondo = new JLabel("New label");
-		lblFondo.setIcon(new ImageIcon("Imagenes/fondo.jpg"));
-		lblFondo.setBounds(0, 0, 434, 256);
+		lblVidas.setBounds(33, 8, 46, 28);
+		lblVidas.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblVidas.setForeground(new Color(0, 128, 0));
+		frame.getContentPane().add(lblVidas);
+		
+		
+		JLabel lblFondo = new JLabel("FondoPresentacion");
+		lblFondo.setBounds(-28, -119, 819, 777);
+		lblFondo.setIcon(new ImageIcon("src\\Imagenes\\fondo.jpg"));
 		frame.getContentPane().add(lblFondo);
 		
-		vidas.setFont(new Font("Tahoma", Font.BOLD, 16));
+	
+		
+		//vidas.setFont(new Font("Tahoma", Font.BOLD, 16));
+		
+		
+		
+		
 
 	}
 }

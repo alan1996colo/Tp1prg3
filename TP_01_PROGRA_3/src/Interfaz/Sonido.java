@@ -20,7 +20,7 @@ public class Sonido
     String status;
       
     AudioInputStream audioInputStream;
-    static String filePath="Interfaz/takeonme.wav";
+    static String filePath="src\\Interfaz\\takeonme.wav";
   
     // constructor to initialize streams and clip
     public Sonido()
@@ -47,7 +47,7 @@ public class Sonido
     {
         try
         {
-            filePath = "src/Interfaz/takeonme.wav";
+            filePath = "Csrc\\Interfaz\\takeonme.wav";
             Sonido audioPlayer = 
                             new Sonido();
               

@@ -59,7 +59,7 @@ public class Tabla {
 	    JTextArea tarea = new JTextArea(20, 20);
 
 	  
-	        File file = new File("Negocio/resultado.txt");
+	        File file = new File("src\\Negocio\\resultado.txt");
 	        try {
 	          BufferedReader input = new BufferedReader(new InputStreamReader(
 	              new FileInputStream(file)));
