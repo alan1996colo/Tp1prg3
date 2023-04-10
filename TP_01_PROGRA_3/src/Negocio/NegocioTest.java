@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+//Los test ralmento mucho no lo usamos.
 public class NegocioTest {
 	 Negocio neg;
 	

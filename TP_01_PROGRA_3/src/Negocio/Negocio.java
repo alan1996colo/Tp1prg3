@@ -1,6 +1,5 @@
 package Negocio;
 
-import java.util.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -8,7 +7,6 @@ import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import javax.swing.JTextField;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,12 +19,10 @@ public class Negocio {
 	private int[] resultadoSumaFila;
 	private int[] resultadoSumaColumna;
 	private int vidas = 3;
-	private int cantFilas;
-	private int cantColumnas;
 	private String dificultad;
 	private Date horaInicio;
-	
-		/****
+
+	/****
 	 * Por defecto crea una matriz de 4x4 con nivel 1.
 	 ***/
 	public Negocio() {
@@ -36,7 +32,7 @@ public class Negocio {
 		this.resultadoSumaColumna = new int[tamano];
 		this.resultadoSumaFila = new int[tamano];
 		calcularResultadoMatrizCreadaFilaColumna();
-		this.horaInicio=new Date();
+		this.horaInicio = new Date();
 	}
 
 	/****
@@ -52,7 +48,7 @@ public class Negocio {
 		this.resultadoSumaColumna = new int[tamano];
 		this.resultadoSumaFila = new int[tamano];
 		calcularResultadoMatrizCreadaFilaColumna();
-		this.horaInicio=new Date();
+		this.horaInicio = new Date();
 	}
 
 	/***
@@ -65,31 +61,18 @@ public class Negocio {
 		} // no queremos una matriz exageradamente grande
 		this.dificultad = dificultad;
 		this.tamano = tamano;
-		this.cantColumnas = tamano;
-		this.cantFilas = tamano;
+
 		this.matrizResuelta = crearMatrizResuelta(tamano, nivel);
 		this.matrizUsuario = crearMatrizConCeros(tamano);
 		this.resultadoSumaColumna = new int[tamano];
 		this.resultadoSumaFila = new int[tamano];
 		calcularResultadoMatrizCreadaFilaColumna();
-		this.horaInicio=new Date();
+		this.horaInicio = new Date();
 	}
-	
 
 	public String getDificultad() { // se usan
 		return dificultad;
 	}
-
-	public int getCantFilas() { // se usan
-		return cantFilas;
-	}
-
-	public int getCantColumnas() { // se usan
-		return cantColumnas;
-	}
-
-	
-
 
 	public int getTamano() {
 		return this.tamano;
@@ -120,69 +103,90 @@ public class Negocio {
 		int[] copia = resultadoSumaColumna.clone();
 		return copia;
 	}
-	
+
 	private BigDecimal calcularPuntaje(BigDecimal tiempo) {
-		
-		BigDecimal puntos=new BigDecimal(1000*this.getVidas());
-		return puntos.divide(tiempo,2,RoundingMode.HALF_UP);
+
+		BigDecimal puntos = new BigDecimal(1000 * this.getVidas() * this.getDificultad().length());
+		return puntos.divide(tiempo, 2, RoundingMode.HALF_UP);
 	}
-	
+
+	/******
+	 * Estos metodos revisan que tipo de sistema operativo se usa para conseguir el
+	 * path de los archivos, soluciona los problemas de compatibilidad linux windows
+	 ***/
+	public static String rutaFileResultadoTxt() {
+		String resourcePath = null;
+		switch (System.getProperty("os.name")) {
+		case "Linux":
+			resourcePath = "Negocio/resultado.txt";
+			break;
+		case "Windows":
+			resourcePath = "src\\Negocio\\resultado.txt";
+			break;
+		}
+		return resourcePath;
+	}
+
 	/****************
 	 * Revisa si la fila esta completada de forma correcta, True si, False no.
-	 * ******/
+	 ******/
 	public boolean isCorrectaFila(int numFila) {
-		
-		
-		return sumarFila(numFila,this.matrizUsuario)==this.resultadoSumaFila[numFila];}
+
+		return sumarFila(numFila, this.matrizUsuario) == this.resultadoSumaFila[numFila];
+	}
+
 	/****************
 	 * Revisa si la COlumna esta completada de forma correcta, True si, False no.
-	 * ******/
+	 ******/
 	public boolean isCorrectaColumna(int numCol) {
-		
-		
-		return sumarColumna(numCol,this.matrizUsuario)==this.resultadoSumaColumna[numCol];}
-	
-	
-	
-	
-	
-	
-	public  void escribirPuntaje(String nombreUsuario) {
-		 try {
-	            String ruta = "Negocio/resultado.txt";
-	           
-	            DateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm:ss z");
-	            
-	           // String dateIni = dateFormat.format(this.horaInicio);
-	            Date horafin=new Date();
-	            String dateFin= dateFormat.format(horafin);
-	            BigDecimal difierenciaMilis=new BigDecimal(horafin.getTime()-horaInicio.getTime());
-	            BigDecimal conPunto=new BigDecimal(1000);
-	            conPunto= difierenciaMilis.divide(conPunto);
-	            File file = new File(ruta);
-	            
-	            // Si el archivo no existe es creado
-	            if (!file.exists()) {
-	                file.createNewFile();
-	            }
-	            FileWriter fw = new FileWriter(file,true);
-	            BufferedWriter bw = new BufferedWriter(fw);
-	            PrintWriter p = new PrintWriter(bw);
-	            p.println(nombreUsuario+"  Puntos=["+calcularPuntaje(conPunto)+"] Vidas: "+this.getVidas()+" Tiempo:("+conPunto+") segundos, el dia {"+dateFin+"}");
-	            
-	            p.close();
-	            bw.close();
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-		
+
+		return sumarColumna(numCol, this.matrizUsuario) == this.resultadoSumaColumna[numCol];
+	}
+
+	/****
+	 * Escribe el nombre de usuario, fecha, hora, tiempo y puntaje en una nueva
+	 * linea en el archivo resultado.txt
+	 * 
+	 * 
+	 ****/
+	public void escribirPuntaje(String nombreUsuario) {
+		try {
+			String ruta = rutaFileResultadoTxt();
+
+			DateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm:ss z");
+
+			// String dateIni = dateFormat.format(this.horaInicio);
+			Date horafin = new Date();
+			String dateFin = dateFormat.format(horafin);
+			BigDecimal difierenciaMilis = new BigDecimal(horafin.getTime() - horaInicio.getTime());
+			BigDecimal conPunto = new BigDecimal(1000);
+			conPunto = difierenciaMilis.divide(conPunto);
+			File file = new File(ruta);
+
+			// Si el archivo no existe es creado
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			FileWriter fw = new FileWriter(file, true);
+			BufferedWriter bw = new BufferedWriter(fw);
+			PrintWriter p = new PrintWriter(bw);
+			p.println(nombreUsuario + "  Puntos=[" + calcularPuntaje(conPunto) + "] Vidas: " + this.getVidas()
+					+ " Tiempo:(" + conPunto + ") segundos, el dia {" + dateFin + "}");
+
+			p.close();
+			bw.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	/***
-	 * Este metodo devuelve True si el input podria ser valido(en este momento), y
-	 * false si el input esta equivocado Se puede usar esta funcion para colorear el
-	 * numero en verde o en rojo ---ATENCION: este metodo no verifica que el input
-	 * sea definitivamete correcto, solo parcialmente con los datos del momento
+	 * ---EN DESUSO DESDE COMMIT 15 MASO. Este metodo devuelve True si el input
+	 * podria ser valido(en este momento), y false si el input esta equivocado Se
+	 * puede usar esta funcion para colorear el numero en verde o en rojo
+	 * ---ATENCION: este metodo no verifica que el input sea definitivamete
+	 * correcto, solo parcialmente con los datos del momento
 	 *****/
 	public boolean validarInput(int coordy, int coordx, int input) {
 		if (input < 1 || coordy < 0 || coordx < 0 || coordx >= this.tamano || coordy >= this.tamano) {// no queremos
@@ -390,9 +394,6 @@ public class Negocio {
 	public int[][] dameMatrizUsuarioParcial() {
 		int[][] copia = this.matrizUsuario.clone();
 		return copia;
-	}
-
-	public static void main(String[] args) {
 	}
 
 }
