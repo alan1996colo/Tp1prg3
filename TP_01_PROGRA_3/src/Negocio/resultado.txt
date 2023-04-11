@@ -1,4 +1,6 @@
 HomeroSImpson  Puntos=[397.49] Vidas: 3 Tiempo:(37.737) segundos, el dia {lun, 10 abr. 2023, 16:16:43 ART}
+Hernansito  Puntos=[392.25] Vidas: 3 Tiempo:(38.241) segundos, el dia {lun, 10 abr. 2023, 23:22:01 ART}
+Daniprofe  Puntos=[125.30] Vidas: 2 Tiempo:(79.81) segundos, el dia {lun, 10 abr. 2023, 23:27:07 ART}
 El Mas Perdedor  Puntos=[70.76] Vidas: 3 Tiempo:(42.398) segundos, el dia {sáb, 8 abr. 2023, 16:44:54 ART}
 Firulay  Puntos=[43.24] Vidas: 1 Tiempo:(115.624) segundos, el dia {lun, 10 abr. 2023, 14:27:05 ART}
 polloBignole  Puntos=[24.82] Vidas: 2 Tiempo:(80.581) segundos, el dia {lun, 10 abr. 2023, 14:11:21 ART}

@@ -22,35 +22,6 @@ public class Negocio {
 	private String dificultad;
 	private Date horaInicio;
 
-	/****
-	 * Por defecto crea una matriz de 4x4 con nivel 1.
-	 ***/
-	public Negocio() {
-		this.tamano = 4;
-		this.matrizResuelta = crearMatrizResuelta(tamano, 1);
-		this.matrizUsuario = crearMatrizConCeros(tamano);
-		this.resultadoSumaColumna = new int[tamano];
-		this.resultadoSumaFila = new int[tamano];
-		calcularResultadoMatrizCreadaFilaColumna();
-		this.horaInicio = new Date();
-	}
-
-	/****
-	 * Por defecto crea una matriz con nivel 1 si no se ingresa parametro nivel.
-	 ***/
-	public Negocio(int tamano) {
-		if (tamano > 20) {
-			tamano = 20;
-		} // no queremos una matriz exageradamente grande
-		this.tamano = tamano;
-		this.matrizResuelta = crearMatrizResuelta(tamano, 1);
-		this.matrizUsuario = crearMatrizConCeros(tamano);
-		this.resultadoSumaColumna = new int[tamano];
-		this.resultadoSumaFila = new int[tamano];
-		calcularResultadoMatrizCreadaFilaColumna();
-		this.horaInicio = new Date();
-	}
-
 	/***
 	 * Crea la grilla para el juego, hace una matriz cuadrada de tamañoXtamaño, con
 	 * valores multiplo de 3xnivel, se crea una matriz resuelta.
@@ -181,46 +152,6 @@ public class Negocio {
 
 	}
 
-	/***
-	 * ---EN DESUSO DESDE COMMIT 15 MASO. Este metodo devuelve True si el input
-	 * podria ser valido(en este momento), y false si el input esta equivocado Se
-	 * puede usar esta funcion para colorear el numero en verde o en rojo
-	 * ---ATENCION: este metodo no verifica que el input sea definitivamete
-	 * correcto, solo parcialmente con los datos del momento
-	 *****/
-	public boolean validarInput(int coordy, int coordx, int input) {
-		if (input < 1 || coordy < 0 || coordx < 0 || coordx >= this.tamano || coordy >= this.tamano) {// no queremos
-																										// inputs de
-																										// naturaleza
-																										// invalida
-
-			return false;
-
-		}
-		// si el input es mayor a la suma de esa fila o columna - la cantidad de lugares
-		// disponibles -1,
-		// es un input malo porque solo son validos valores mayores iguales a 1 los que
-		// se pueden completar en otras coordenadas
-		if (input > this.resultadoSumaColumna[coordx] - (this.tamano - 1)) {
-			return false;
-		}
-		if (input > this.resultadoSumaFila[coordy] - (this.tamano - 1)) {
-			return false;
-		}
-		if (sumarFila(coordy, this.matrizUsuario) + input > this.resultadoSumaFila[coordy]) {
-			// si el input del usuario masel resto de inputs de usuario da mayor a el
-			// resultado a llegar, entonces es un input malo
-			return false;
-		}
-		if (sumarColumna(coordx, this.matrizUsuario) + input > this.resultadoSumaColumna[coordx]) {
-			// si el input del usuario masel resto de inputs de usuario da mayor a el
-			// resultado a llegar, entonces es un input malo
-			return false;
-		}
-		// si pasa todo entonces el inputs es parcialmente valido
-		return true;
-	}
-
 	/*****
 	 * Para uso de la capa de presentacion, debe revisar esta funcion antes de nada
 	 * Si las vidas llegan a cero, se perdio el juego , entonces gameOver devuelve
@@ -272,19 +203,6 @@ public class Negocio {
 
 	private int valorAleatorioNivel(int nivel) {
 		return (int) (Math.random() * nivel * 3 + 1);
-	}
-
-	public void agregarUNvalorMatriz(int posx, int posy, int valor) {// En desUso, ahora se agrega todo junto al
-																		// presionar calcular
-		if (gameOver())
-			throw new RuntimeException("El juego ha terminado,Esto no deberia mostrarse nunca");
-		if (posx < 0)
-			throw new IllegalArgumentException("No existen posiciones negativas " + posx);
-		if (posy < 0)
-			throw new IllegalArgumentException("No existen posiciones negativas " + posy);
-		if (valor <= 0)
-			throw new IllegalArgumentException("No se permiten valores negativos o iguales a cero " + valor);
-		this.matrizUsuario[posx][posy] = valor;
 	}
 
 	// Agrega los input a la matriz de usuario
